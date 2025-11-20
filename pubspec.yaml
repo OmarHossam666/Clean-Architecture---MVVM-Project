@@ -1,0 +1,57 @@
+name: clean_architecture_mvvm
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  country_code_picker: ^3.4.1
+  dartz: ^0.10.1
+  dio: ^5.9.0
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.2.1
+  freezed_annotation: ^3.1.0
+  get_it: ^9.0.5
+  image_picker: ^1.2.1
+  internet_connection_checker: ^3.0.1
+  json_annotation: ^4.9.0
+  json_serializable: ^6.11.1
+  lottie: ^3.3.2
+  pretty_dio_logger: ^1.4.0
+  retrofit: ^4.7.2
+  retrofit_generator: ^10.0.5
+  shared_preferences: ^2.5.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  analyzer: ^8.1.1
+  build_runner: ^2.8.0
+  freezed: ^3.2.3
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/json/
+    - assets/fonts/
+    - assets/translations/
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Montserrat-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Montserrat-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Montserrat-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
