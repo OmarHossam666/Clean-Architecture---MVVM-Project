@@ -50,4 +50,10 @@ class StringsManager {
   static const String resetPasswordSuccess =
       'Password reset link has been sent to your email';
   static const String emailError = 'Please enter your email';
+
+  // Main Screen
+  static const String home = 'Home';
+  static const String search = 'Search';
+  static const String notifications = 'Notifications';
+  static const String settings = 'Settings';
 }

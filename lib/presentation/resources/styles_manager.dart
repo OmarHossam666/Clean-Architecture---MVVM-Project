@@ -7,7 +7,7 @@ class StylesManager {
   StylesManager._();
 
   static const TextStyle titleTextStyle = TextStyle(
-    color: ColorsManager.primaryText,
+    color: ColorsManager.white,
     fontSize: FontsManager.titleSize,
     fontWeight: FontsManager.bold,
   );
