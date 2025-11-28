@@ -56,3 +56,51 @@ class ForgotPassword {
 
   final String? support;
 }
+
+class Service {
+  Service({required this.id, required this.title, required this.image});
+
+  final int id;
+  final String title;
+  final String image;
+}
+
+class Banner {
+  Banner({
+    required this.id,
+    required this.link,
+    required this.title,
+    required this.image,
+  });
+
+  final int id;
+  final String link;
+  final String title;
+  final String image;
+}
+
+class Store {
+  Store({required this.id, required this.title, required this.image});
+
+  final int id;
+  final String title;
+  final String image;
+}
+
+class HomeData {
+  HomeData({
+    required this.services,
+    required this.banners,
+    required this.stores,
+  });
+
+  final List<Service> services;
+  final List<Banner> banners;
+  final List<Store> stores;
+}
+
+class HomeModel {
+  HomeModel({required this.data});
+
+  final HomeData data;
+}
