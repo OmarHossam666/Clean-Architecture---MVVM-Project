@@ -8,6 +8,7 @@ abstract class RemoteDataSource {
     ForgotPasswordRequest forgotPasswordRequest,
   );
   Future<AuthenticationResponse> register(RegisterRequest registerRequest);
+  Future<HomeResponse> getHomeData();
 }
 
 class RemoteDataSourceImplementation implements RemoteDataSource {
@@ -38,5 +39,10 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
       registerRequest.email,
       registerRequest.password,
     );
+  }
+  
+  @override
+  Future<HomeResponse> getHomeData() async {
+    return await apiService.getHomeData();
   }
 }

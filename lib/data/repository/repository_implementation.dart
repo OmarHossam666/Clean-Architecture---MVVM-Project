@@ -111,4 +111,31 @@ class RepositoryImplementation implements Repository {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, HomeModel>> getHomeData() async {
+    if (await networkInformation.isConnected) {
+      try {
+        final response = await remoteDataSource.getHomeData();
+
+        final statusCode = response.status ?? ResponseCode.UNKNOWN;
+        if (statusCode == ApiInternalStatus.success ||
+            statusCode == ResponseCode.SUCCESS ||
+            statusCode == ResponseCode.NO_CONTENT) {
+          return Right(response.toDomain());
+        } else {
+          return Left(
+            Failure(
+              message: response.message ?? ResponseMessage.UNKNOWN,
+              statusCode: statusCode,
+            ),
+          );
+        }
+      } catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 }

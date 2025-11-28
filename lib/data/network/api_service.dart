@@ -27,4 +27,7 @@ abstract class ApiService {
     @Field('email') String email,
     @Field('password') String password,
   );
+
+  @GET(AppConstants.homeEndpoint)
+  Future<HomeResponse> getHomeData();
 }
