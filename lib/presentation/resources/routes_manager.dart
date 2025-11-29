@@ -41,6 +41,7 @@ class RoutesManager {
           builder: (context) => const ForgotPasswordScreen(),
         );
       case RoutesManager.mainRoute:
+        initHomeModule();
         return MaterialPageRoute(builder: (context) => const MainScreen());
       case RoutesManager.detailsRoute:
         return MaterialPageRoute(builder: (context) => const DetailsScreen());

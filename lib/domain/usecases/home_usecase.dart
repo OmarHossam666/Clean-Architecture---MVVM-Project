@@ -4,7 +4,7 @@ import 'package:clean_architecture_mvvm/domain/repository/repository.dart';
 import 'package:clean_architecture_mvvm/domain/usecases/base_usecase.dart';
 import 'package:dartz/dartz.dart';
 
-class HomeUsecase extends BaseUsecase<Failure, HomeModel> {
+class HomeUsecase extends BaseUsecase<void, HomeModel> {
   HomeUsecase(this._repository);
 
   final Repository _repository;

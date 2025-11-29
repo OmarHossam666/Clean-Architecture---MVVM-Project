@@ -6,10 +6,12 @@ import 'package:clean_architecture_mvvm/data/network_information/network_informa
 import 'package:clean_architecture_mvvm/data/repository/repository_implementation.dart';
 import 'package:clean_architecture_mvvm/domain/repository/repository.dart';
 import 'package:clean_architecture_mvvm/domain/usecases/forgot_password_usecase.dart';
+import 'package:clean_architecture_mvvm/domain/usecases/home_usecase.dart';
 import 'package:clean_architecture_mvvm/domain/usecases/login_usecase.dart';
 import 'package:clean_architecture_mvvm/domain/usecases/register_usecase.dart';
 import 'package:clean_architecture_mvvm/presentation/forgot_password/view_model/forgot_password_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/login/view_model/login_view_model.dart';
+import 'package:clean_architecture_mvvm/presentation/main/view_models/home_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/register/view_model/register_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -78,5 +80,12 @@ void initRegisterModule() {
     instance.registerFactory<RegisterViewModel>(
       () => RegisterViewModel(registerUsecase: instance()),
     );
+  }
+}
+
+void initHomeModule() {
+  if (!GetIt.I.isRegistered<HomeUsecase>()) {
+    instance.registerFactory(() => HomeUsecase(instance()));
+    instance.registerFactory(() => HomeViewModel(homeUsecase: instance()));
   }
 }

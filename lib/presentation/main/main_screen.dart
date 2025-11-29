@@ -1,7 +1,7 @@
-import 'package:clean_architecture_mvvm/presentation/main/screens/home_screen.dart';
-import 'package:clean_architecture_mvvm/presentation/main/screens/notifications_screen.dart';
-import 'package:clean_architecture_mvvm/presentation/main/screens/search_screen.dart';
-import 'package:clean_architecture_mvvm/presentation/main/screens/settings_screen.dart';
+import 'package:clean_architecture_mvvm/presentation/main/views/home_screen.dart';
+import 'package:clean_architecture_mvvm/presentation/main/views/notifications_screen.dart';
+import 'package:clean_architecture_mvvm/presentation/main/views/search_screen.dart';
+import 'package:clean_architecture_mvvm/presentation/main/views/settings_screen.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
