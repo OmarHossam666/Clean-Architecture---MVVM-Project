@@ -56,4 +56,8 @@ class StringsManager {
   static const String search = 'Search';
   static const String notifications = 'Notifications';
   static const String settings = 'Settings';
+
+  // Home Screen
+  static const String services = 'Services';
+  static const String stores = 'Stores';
 }

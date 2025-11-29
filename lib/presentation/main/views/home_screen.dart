@@ -1,8 +1,13 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clean_architecture_mvvm/application/dependency_injection.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
 import 'package:clean_architecture_mvvm/presentation/main/view_models/home_view_model.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Banner;
+import 'package:clean_architecture_mvvm/domain/models/models.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -56,9 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
             spacing: ValuesManager.spacing8,
             children: [
               _getBanners(),
-              _getSection(),
+              _getSection(StringsManager.services),
               _getServices(),
-              _getSection(),
+              _getSection(StringsManager.stores),
               _getStores(),
             ],
           ),
@@ -68,11 +73,56 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _getBanners() {
-    return Container();
+    return StreamBuilder<List<Banner>>(
+      stream: _homeViewModel.outputBanners,
+      builder: (context, snapshot) {
+        if (snapshot.data != null) {
+          return CarouselSlider(
+            items: snapshot.data?.map((banner) => _getBanner(banner)).toList(),
+            options: CarouselOptions(
+              height: ValuesManager.height100,
+              viewportFraction: 0.8,
+              autoPlay: true,
+              enableInfiniteScroll: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(seconds: 1),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: true,
+              enlargeFactor: 0.3,
+              scrollDirection: Axis.horizontal,
+            ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
   }
 
-  Widget _getSection() {
-    return Container();
+  Widget _getBanner(Banner banner) {
+    return Card(
+      elevation: ValuesManager.elevation4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(ValuesManager.radius16),
+        side: BorderSide(
+          color: ColorsManager.primary,
+          width: ValuesManager.width1,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadiusGeometry.circular(ValuesManager.radius16),
+        child: Image.network(banner.image, fit: BoxFit.cover),
+      ),
+    );
+  }
+
+  Widget _getSection(String title) {
+    return Text(
+      title,
+      style: StylesManager.sectionHeaderTextStyle.copyWith(
+        color: ColorsManager.primary,
+      ),
+    );
   }
 
   Widget _getServices() {
