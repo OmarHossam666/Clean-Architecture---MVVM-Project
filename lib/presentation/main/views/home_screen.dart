@@ -21,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    super.initState();
     _bind();
+    super.initState();
   }
 
   @override
@@ -37,36 +37,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<FlowState>(
-      stream: _homeViewModel.outputState,
-      builder: (context, snapshot) {
-        return snapshot.data?.getScreen(
-              context,
-              () => _homeViewModel.getHomeData(),
-              _getContent(),
-            ) ??
-            _getContent();
-      },
+    return Padding(
+      padding: const EdgeInsets.all(ValuesManager.padding16),
+      child: Center(
+        child: StreamBuilder<FlowState>(
+          stream: _homeViewModel.outputState,
+          builder: (context, snapshot) {
+            return snapshot.data?.getScreen(
+                  context,
+                  () => _homeViewModel.getHomeData(),
+                  _getContent(),
+                ) ??
+                _getContent();
+          },
+        ),
+      ),
     );
   }
 
   Widget _getContent() {
     return SafeArea(
       child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(ValuesManager.padding16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            spacing: ValuesManager.spacing8,
-            children: [
-              _getBanners(),
-              _getSection(StringsManager.services),
-              _getServices(),
-              _getSection(StringsManager.stores),
-              _getStores(),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          spacing: ValuesManager.spacing8,
+          children: [
+            _getBanners(),
+            _getSection(StringsManager.services),
+            _getServices(),
+            _getSection(StringsManager.stores),
+            _getStores(),
+          ],
         ),
       ),
     );
@@ -93,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         } else {
-          return const SizedBox();
+          return _getLoading();
         }
       },
     );
@@ -126,10 +128,103 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _getServices() {
-    return Container();
+    return StreamBuilder<List<Service>>(
+      stream: _homeViewModel.outputServices,
+      builder: (context, snapshot) {
+        if (snapshot.data != null) {
+          return ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              return _getService(snapshot.data![index]);
+            },
+          );
+        } else {
+          return _getLoading();
+        }
+      },
+    );
+  }
+
+  Widget _getService(Service service) {
+    return Card(
+      color: ColorsManager.white,
+      shadowColor: ColorsManager.primary,
+      elevation: ValuesManager.elevation4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(ValuesManager.radius16),
+        side: BorderSide(
+          color: ColorsManager.primary,
+          width: ValuesManager.width1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: ValuesManager.spacing8,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadiusGeometry.circular(ValuesManager.radius16),
+            child: Image.network(service.image, fit: BoxFit.cover),
+          ),
+          Text(service.title, style: StylesManager.subtitleTextStyle),
+        ],
+      ),
+    );
   }
 
   Widget _getStores() {
-    return Container();
+    return StreamBuilder<List<Store>>(
+      stream: _homeViewModel.outputStores,
+      builder: (context, snapshot) {
+        if (snapshot.data != null) {
+          return GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: ValuesManager.spacing8,
+              crossAxisSpacing: ValuesManager.spacing8,
+            ),
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              return _getStore(snapshot.data![index]);
+            },
+          );
+        } else {
+          return _getLoading();
+        }
+      },
+    );
   }
+}
+
+Widget _getStore(Store store) {
+  return InkWell(
+    child: Card(
+      color: ColorsManager.white,
+      shadowColor: ColorsManager.primary,
+      elevation: ValuesManager.elevation4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(ValuesManager.radius16),
+        side: BorderSide(
+          color: ColorsManager.primary,
+          width: ValuesManager.width1,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(ValuesManager.radius16),
+        child: Image.network(store.image, fit: BoxFit.cover),
+      ),
+    ),
+  );
+}
+
+Widget _getLoading() {
+  return const Center(
+    child: CircularProgressIndicator(
+      color: ColorsManager.primary,
+      strokeWidth: ValuesManager.width2,
+    ),
+  );
 }

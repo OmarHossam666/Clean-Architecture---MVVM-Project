@@ -1,7 +1,7 @@
 class AppConstants {
   AppConstants._();
 
-  static const String baseUrl = 'https://omar-hossam.wiremockapi.cloud/';
+  static const String baseUrl = 'https://omar-hossam.wiremockapi.cloud';
   static const String loginEndpoint = '/users/login/';
   static const String forgotPasswordEndpoint = '/users/forgot-password/';
   static const String registerEndpoint = '/users/register/';

@@ -37,4 +37,5 @@ class ValuesManager {
   static const double width50 = 50.0;
 
   static const double width1 = 1.0;
+  static const double width2 = 2.0;
 }
