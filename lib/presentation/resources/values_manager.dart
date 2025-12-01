@@ -1,6 +1,7 @@
 class ValuesManager {
   ValuesManager._();
 
+  static const double padding8 = 8.0;
   static const double padding12 = 12.0;
   static const double padding16 = 16.0;
   static const double padding24 = 24.0;
@@ -32,8 +33,12 @@ class ValuesManager {
 
   static const double height50 = 50.0;
   static const double height100 = 100.0;
+  static const double height140 = 140.0;
+  static const double height200 = 200.0;
 
   static const double width100 = 100.0;
+  static const double width140 = 140.0;
+  static const double width200 = 200.0;
   static const double width50 = 50.0;
 
   static const double width1 = 1.0;

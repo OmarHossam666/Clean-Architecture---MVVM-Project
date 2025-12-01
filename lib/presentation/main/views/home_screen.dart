@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return CarouselSlider(
             items: snapshot.data?.map((banner) => _getBanner(banner)).toList(),
             options: CarouselOptions(
-              height: ValuesManager.height100,
+              height: ValuesManager.height140,
               viewportFraction: 0.8,
               autoPlay: true,
               enableInfiniteScroll: true,
@@ -95,25 +95,28 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         } else {
-          return _getLoading();
+          return const SizedBox();
         }
       },
     );
   }
 
   Widget _getBanner(Banner banner) {
-    return Card(
-      elevation: ValuesManager.elevation4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(ValuesManager.radius16),
-        side: BorderSide(
-          color: ColorsManager.primary,
-          width: ValuesManager.width1,
+    return SizedBox(
+      width: double.infinity,
+      child: Card(
+        elevation: ValuesManager.elevation4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ValuesManager.radius16),
+          side: BorderSide(
+            color: ColorsManager.primary,
+            width: ValuesManager.width1,
+          ),
         ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadiusGeometry.circular(ValuesManager.radius16),
-        child: Image.network(banner.image, fit: BoxFit.cover),
+        child: ClipRRect(
+          borderRadius: BorderRadiusGeometry.circular(ValuesManager.radius16),
+          child: Image.network(banner.image, fit: BoxFit.cover),
+        ),
       ),
     );
   }
@@ -132,44 +135,59 @@ class _HomeScreenState extends State<HomeScreen> {
       stream: _homeViewModel.outputServices,
       builder: (context, snapshot) {
         if (snapshot.data != null) {
-          return ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              return _getService(snapshot.data![index]);
-            },
+          return SizedBox(
+            height: ValuesManager.height200,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return _getService(snapshot.data![index]);
+              },
+            ),
           );
         } else {
-          return _getLoading();
+          return const SizedBox();
         }
       },
     );
   }
 
   Widget _getService(Service service) {
-    return Card(
-      color: ColorsManager.white,
-      shadowColor: ColorsManager.primary,
-      elevation: ValuesManager.elevation4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(ValuesManager.radius16),
-        side: BorderSide(
-          color: ColorsManager.primary,
-          width: ValuesManager.width1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: ValuesManager.spacing8,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(ValuesManager.radius16),
-            child: Image.network(service.image, fit: BoxFit.cover),
+    return SizedBox(
+      width: ValuesManager.width200,
+      child: Card(
+        color: ColorsManager.white,
+        shadowColor: ColorsManager.primary,
+        elevation: ValuesManager.elevation4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ValuesManager.radius16),
+          side: BorderSide(
+            color: ColorsManager.primary,
+            width: ValuesManager.width1,
           ),
-          Text(service.title, style: StylesManager.subtitleTextStyle),
-        ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: ValuesManager.spacing8,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadiusGeometry.circular(
+                ValuesManager.radius16,
+              ),
+              child: Image.network(service.image, fit: BoxFit.cover),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: ValuesManager.padding8,
+              ),
+              child: Text(
+                service.title,
+                style: StylesManager.subtitleTextStyle,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -192,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           );
         } else {
-          return _getLoading();
+          return const SizedBox();
         }
       },
     );
@@ -216,15 +234,6 @@ Widget _getStore(Store store) {
         borderRadius: BorderRadius.circular(ValuesManager.radius16),
         child: Image.network(store.image, fit: BoxFit.cover),
       ),
-    ),
-  );
-}
-
-Widget _getLoading() {
-  return const Center(
-    child: CircularProgressIndicator(
-      color: ColorsManager.primary,
-      strokeWidth: ValuesManager.width2,
     ),
   );
 }
