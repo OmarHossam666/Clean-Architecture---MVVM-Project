@@ -104,3 +104,21 @@ class HomeModel {
 
   final HomeData data;
 }
+
+class StoreDetails {
+  StoreDetails({
+    required this.id,
+    required this.title,
+    required this.image,
+    required this.details,
+    required this.services,
+    required this.about,
+  });
+
+  final int id;
+  final String title;
+  final String image;
+  final String details;
+  final String services;
+  final String about;
+}

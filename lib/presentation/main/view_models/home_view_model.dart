@@ -37,8 +37,8 @@ class HomeViewModel extends BaseViewModel
           );
         },
         (homeModel) {
-          inputState.add(ContentState());
           inputHome.add(homeModel);
+          inputState.add(ContentState());
         },
       );
     });

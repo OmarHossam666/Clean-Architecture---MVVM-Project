@@ -4,13 +4,13 @@ import 'package:clean_architecture_mvvm/domain/repository/repository.dart';
 import 'package:clean_architecture_mvvm/domain/usecases/base_usecase.dart';
 import 'package:dartz/dartz.dart';
 
-class HomeUsecase implements BaseUsecase<void, HomeModel> {
-  HomeUsecase(this._repository);
+class StoreDetailsUsecase implements BaseUsecase<void, StoreDetails> {
+  StoreDetailsUsecase(this._repository);
 
   final Repository _repository;
 
   @override
-  Future<Either<Failure, HomeModel>> execute(void input) async {
-    return await _repository.getHomeData();
+  Future<Either<Failure, StoreDetails>> execute(void input) async {
+    return await _repository.getStoreDetails();
   }
 }

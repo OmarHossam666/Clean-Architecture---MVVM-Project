@@ -12,8 +12,8 @@ class RegisterUsecase
   RegisterUsecase(this._repository);
 
   @override
-  Future<Either<Failure, Authentication>> execute(RegisterUsecaseInput input) {
-    return _repository.register(
+  Future<Either<Failure, Authentication>> execute(RegisterUsecaseInput input) async {
+    return await _repository.register(
       RegisterRequest(
         name: input.name,
         countryCode: input.countryCode,

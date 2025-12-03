@@ -1,5 +1,5 @@
 import 'package:clean_architecture_mvvm/application/dependency_injection.dart';
-import 'package:clean_architecture_mvvm/presentation/details/details_screen.dart';
+import 'package:clean_architecture_mvvm/presentation/details/view/store_details_screen.dart';
 import 'package:clean_architecture_mvvm/presentation/forgot_password/view/forgot_password_screen.dart';
 import 'package:clean_architecture_mvvm/presentation/login/view/login_screen.dart';
 import 'package:clean_architecture_mvvm/presentation/main/main_screen.dart';
@@ -44,7 +44,8 @@ class RoutesManager {
         initHomeModule();
         return MaterialPageRoute(builder: (context) => const MainScreen());
       case RoutesManager.detailsRoute:
-        return MaterialPageRoute(builder: (context) => const DetailsScreen());
+        initStoreDetailsModule();
+        return MaterialPageRoute(builder: (context) => const StoreDetailsScreen());
       default:
         return unDefinedRoute();
     }

@@ -10,6 +10,8 @@ import 'package:clean_architecture_mvvm/domain/usecases/forgot_password_usecase.
 import 'package:clean_architecture_mvvm/domain/usecases/home_usecase.dart';
 import 'package:clean_architecture_mvvm/domain/usecases/login_usecase.dart';
 import 'package:clean_architecture_mvvm/domain/usecases/register_usecase.dart';
+import 'package:clean_architecture_mvvm/domain/usecases/store_details_usecase.dart';
+import 'package:clean_architecture_mvvm/presentation/details/view_model/store_details_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/forgot_password/view_model/forgot_password_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/login/view_model/login_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/main/view_models/home_view_model.dart';
@@ -93,5 +95,14 @@ void initHomeModule() {
   if (!GetIt.I.isRegistered<HomeUsecase>()) {
     instance.registerFactory(() => HomeUsecase(instance()));
     instance.registerFactory(() => HomeViewModel(homeUsecase: instance()));
+  }
+}
+
+void initStoreDetailsModule() {
+  if (!GetIt.I.isRegistered<StoreDetailsUsecase>()) {
+    instance.registerFactory(() => StoreDetailsUsecase(instance()));
+    instance.registerFactory(
+      () => StoreDetailsViewModel(storeDetailsUsecase: instance()),
+    );
   }
 }

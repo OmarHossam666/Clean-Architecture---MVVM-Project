@@ -148,4 +148,38 @@ class RepositoryImplementation implements Repository {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, StoreDetails>> getStoreDetails() async {
+    try {
+      final response = await localDataSource.getStoreDetails();
+      return Right(response.toDomain());
+    } catch (cacheError) {
+      if (await networkInformation.isConnected) {
+        try {
+          final response = await remoteDataSource.getStoreDetails();
+
+          final statusCode = response.status ?? ResponseCode.UNKNOWN;
+          if (statusCode == ApiInternalStatus.success ||
+              statusCode == ResponseCode.SUCCESS ||
+              statusCode == ResponseCode.NO_CONTENT) {
+            localDataSource.cacheStoreDetails(response);
+
+            return Right(response.toDomain());
+          } else {
+            return Left(
+              Failure(
+                message: response.message ?? ResponseMessage.UNKNOWN,
+                statusCode: statusCode,
+              ),
+            );
+          }
+        } catch (error) {
+          return Left(ErrorHandler.handle(error).failure);
+        }
+      } else {
+        return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+      }
+    }
+  }
 }

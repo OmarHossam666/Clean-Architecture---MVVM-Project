@@ -6,6 +6,7 @@ class AppConstants {
   static const String forgotPasswordEndpoint = '/users/forgot-password/';
   static const String registerEndpoint = '/users/register/';
   static const String homeEndpoint = '/home/';
+  static const String storeDetailsEndpoint = '/store/';
   static const String empty = '';
   static const int zero = 0;
   static const Duration timeOut = Duration(seconds: 60);

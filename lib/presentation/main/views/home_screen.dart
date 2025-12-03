@@ -3,6 +3,7 @@ import 'package:clean_architecture_mvvm/application/dependency_injection.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
 import 'package:clean_architecture_mvvm/presentation/main/view_models/home_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/routes_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
@@ -59,6 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return StreamBuilder<HomeModel>(
       stream: _homeViewModel.outputHome,
       builder: (context, snapshot) {
+        if (snapshot.data == null) {
+          return Container();
+        }
         return SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -190,14 +194,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       itemCount: stores.length,
       itemBuilder: (context, index) {
-        return _getStore(stores[index]);
+        return _getStore(stores[index], context);
       },
     );
   }
 }
 
-Widget _getStore(Store store) {
+Widget _getStore(Store store, BuildContext context) {
   return InkWell(
+    onTap: () => Navigator.pushNamed(context, RoutesManager.detailsRoute),
     child: Card(
       color: ColorsManager.white,
       shadowColor: ColorsManager.primary,

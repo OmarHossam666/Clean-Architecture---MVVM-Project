@@ -30,4 +30,7 @@ abstract class ApiService {
 
   @GET(AppConstants.homeEndpoint)
   Future<HomeResponse> getHomeData();
+
+  @GET(AppConstants.storeDetailsEndpoint)
+  Future<StoreDetailsResponse> getStoreDetails();
 }
