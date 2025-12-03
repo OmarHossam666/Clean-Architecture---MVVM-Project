@@ -40,7 +40,7 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
       registerRequest.password,
     );
   }
-  
+
   @override
   Future<HomeResponse> getHomeData() async {
     return await apiService.getHomeData();

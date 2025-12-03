@@ -56,48 +56,44 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _getContent() {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          spacing: ValuesManager.spacing8,
-          children: [
-            _getBanners(),
-            _getSection(StringsManager.services),
-            _getServices(),
-            _getSection(StringsManager.stores),
-            _getStores(),
-          ],
-        ),
-      ),
+    return StreamBuilder<HomeModel>(
+      stream: _homeViewModel.outputHome,
+      builder: (context, snapshot) {
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: ValuesManager.spacing8,
+              children: [
+                _getBanners(snapshot.data?.data.banners ?? []),
+                _getSection(StringsManager.services),
+                _getServices(snapshot.data?.data.services ?? []),
+                _getSection(StringsManager.stores),
+                _getStores(snapshot.data?.data.stores ?? []),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
-  Widget _getBanners() {
-    return StreamBuilder<List<Banner>>(
-      stream: _homeViewModel.outputBanners,
-      builder: (context, snapshot) {
-        if (snapshot.data != null) {
-          return CarouselSlider(
-            items: snapshot.data?.map((banner) => _getBanner(banner)).toList(),
-            options: CarouselOptions(
-              height: ValuesManager.height140,
-              viewportFraction: 0.8,
-              autoPlay: true,
-              enableInfiniteScroll: true,
-              autoPlayInterval: const Duration(seconds: 3),
-              autoPlayAnimationDuration: const Duration(seconds: 1),
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enlargeCenterPage: true,
-              enlargeFactor: 0.3,
-              scrollDirection: Axis.horizontal,
-            ),
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
+  Widget _getBanners(List<Banner> banners) {
+    return CarouselSlider(
+      items: banners.map((banner) => _getBanner(banner)).toList(),
+      options: CarouselOptions(
+        height: ValuesManager.height140,
+        viewportFraction: 0.8,
+        autoPlay: true,
+        enableInfiniteScroll: true,
+        autoPlayInterval: const Duration(seconds: 3),
+        autoPlayAnimationDuration: const Duration(seconds: 1),
+        autoPlayCurve: Curves.fastOutSlowIn,
+        enlargeCenterPage: true,
+        enlargeFactor: 0.3,
+        scrollDirection: Axis.horizontal,
+      ),
     );
   }
 
@@ -130,26 +126,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _getServices() {
-    return StreamBuilder<List<Service>>(
-      stream: _homeViewModel.outputServices,
-      builder: (context, snapshot) {
-        if (snapshot.data != null) {
-          return SizedBox(
-            height: ValuesManager.height200,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return _getService(snapshot.data![index]);
-              },
-            ),
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
+  Widget _getServices(List<Service> services) {
+    return SizedBox(
+      height: ValuesManager.height200,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        itemCount: services.length,
+        itemBuilder: (context, index) {
+          return _getService(services[index]);
+        },
+      ),
     );
   }
 
@@ -192,26 +179,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _getStores() {
-    return StreamBuilder<List<Store>>(
-      stream: _homeViewModel.outputStores,
-      builder: (context, snapshot) {
-        if (snapshot.data != null) {
-          return GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: ValuesManager.spacing8,
-              crossAxisSpacing: ValuesManager.spacing8,
-            ),
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              return _getStore(snapshot.data![index]);
-            },
-          );
-        } else {
-          return const SizedBox();
-        }
+  Widget _getStores(List<Store> stores) {
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: ValuesManager.spacing8,
+        crossAxisSpacing: ValuesManager.spacing8,
+      ),
+      itemCount: stores.length,
+      itemBuilder: (context, index) {
+        return _getStore(stores[index]);
       },
     );
   }

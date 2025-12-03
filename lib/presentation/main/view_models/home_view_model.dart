@@ -11,9 +11,7 @@ class HomeViewModel extends BaseViewModel
   HomeViewModel({required this.homeUsecase});
 
   final HomeUsecase homeUsecase;
-  final _servicesStreamController = BehaviorSubject<List<Service>>();
-  final _bannersStreamController = BehaviorSubject<List<Banner>>();
-  final _storesStreamController = BehaviorSubject<List<Store>>();
+  final _homeStreamController = BehaviorSubject<HomeModel>();
 
   @override
   void start() {
@@ -40,9 +38,7 @@ class HomeViewModel extends BaseViewModel
         },
         (homeModel) {
           inputState.add(ContentState());
-          inputServices.add(homeModel.data.services);
-          inputBanners.add(homeModel.data.banners);
-          inputStores.add(homeModel.data.stores);
+          inputHome.add(homeModel);
         },
       );
     });
@@ -50,39 +46,21 @@ class HomeViewModel extends BaseViewModel
 
   @override
   void dispose() {
-    _servicesStreamController.close();
-    _bannersStreamController.close();
-    _storesStreamController.close();
+    _homeStreamController.close();
     super.dispose();
   }
 
   @override
-  Sink get inputBanners => _bannersStreamController.sink;
+  Sink get inputHome => _homeStreamController.sink;
 
   @override
-  Sink get inputServices => _servicesStreamController.sink;
-
-  @override
-  Sink get inputStores => _storesStreamController.sink;
-
-  @override
-  Stream<List<Banner>> get outputBanners => _bannersStreamController.stream;
-
-  @override
-  Stream<List<Service>> get outputServices => _servicesStreamController.stream;
-
-  @override
-  Stream<List<Store>> get outputStores => _storesStreamController.stream;
+  Stream<HomeModel> get outputHome => _homeStreamController.stream;
 }
 
 abstract class HomeViewModelInputs {
-  Sink get inputServices;
-  Sink get inputBanners;
-  Sink get inputStores;
+  Sink get inputHome;
 }
 
 abstract class HomeViewModelOutputs {
-  Stream<List<Service>> get outputServices;
-  Stream<List<Banner>> get outputBanners;
-  Stream<List<Store>> get outputStores;
+  Stream<HomeModel> get outputHome;
 }

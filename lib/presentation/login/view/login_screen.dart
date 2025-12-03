@@ -79,91 +79,95 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _getContent() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: ValuesManager.padding24,
-        vertical: ValuesManager.padding32,
-      ),
-      color: ColorsManager.white,
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(AssetsManager.splashLogo),
-            const SizedBox(height: ValuesManager.padding24),
-            StreamBuilder<bool>(
-              stream: _loginViewModel.isNameValid,
-              builder: (context, snapshot) {
-                return TextFormField(
-                  controller: _nameController,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    hintText: StringsManager.userName,
-                    labelText: StringsManager.userName,
-                    errorText: (snapshot.data ?? true)
-                        ? null
-                        : StringsManager.userNameError,
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: ValuesManager.padding24),
-            StreamBuilder<bool>(
-              stream: _loginViewModel.isPasswordValid,
-              builder: (context, snapshot) {
-                return TextFormField(
-                  controller: _passwordController,
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: InputDecoration(
-                    hintText: StringsManager.password,
-                    labelText: StringsManager.password,
-                    errorText: (snapshot.data ?? true)
-                        ? null
-                        : StringsManager.passwordError,
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: ValuesManager.padding32),
-            StreamBuilder<bool>(
-              stream: _loginViewModel.areAllInputsValid,
-              builder: (context, snapshot) {
-                return ElevatedButton(
-                  onPressed: (snapshot.data ?? false)
-                      ? () {
-                          _loginViewModel.login();
-                        }
-                      : null,
-                  child: const Text(StringsManager.login),
-                );
-              },
-            ),
-            const SizedBox(height: ValuesManager.padding32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: ValuesManager.padding24,
+            vertical: ValuesManager.padding32,
+          ),
+          color: ColorsManager.white,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: () => Navigator.pushNamed(
-                      context,
-                      RoutesManager.forgotPasswordRoute,
-                    ),
-                    child: const Text(StringsManager.forgotPassword),
-                  ),
+                Image.asset(AssetsManager.splashLogo),
+                const SizedBox(height: ValuesManager.padding24),
+                StreamBuilder<bool>(
+                  stream: _loginViewModel.isNameValid,
+                  builder: (context, snapshot) {
+                    return TextFormField(
+                      controller: _nameController,
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        hintText: StringsManager.userName,
+                        labelText: StringsManager.userName,
+                        errorText: (snapshot.data ?? true)
+                            ? null
+                            : StringsManager.userNameError,
+                      ),
+                    );
+                  },
                 ),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () => Navigator.pushNamed(
-                      context,
-                      RoutesManager.registerRoute,
+                const SizedBox(height: ValuesManager.padding24),
+                StreamBuilder<bool>(
+                  stream: _loginViewModel.isPasswordValid,
+                  builder: (context, snapshot) {
+                    return TextFormField(
+                      controller: _passwordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecoration(
+                        hintText: StringsManager.password,
+                        labelText: StringsManager.password,
+                        errorText: (snapshot.data ?? true)
+                            ? null
+                            : StringsManager.passwordError,
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: ValuesManager.padding32),
+                StreamBuilder<bool>(
+                  stream: _loginViewModel.areAllInputsValid,
+                  builder: (context, snapshot) {
+                    return ElevatedButton(
+                      onPressed: (snapshot.data ?? false)
+                          ? () {
+                              _loginViewModel.login();
+                            }
+                          : null,
+                      child: const Text(StringsManager.login),
+                    );
+                  },
+                ),
+                const SizedBox(height: ValuesManager.padding32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          RoutesManager.forgotPasswordRoute,
+                        ),
+                        child: const Text(StringsManager.forgotPassword),
+                      ),
                     ),
-                    child: const Text(StringsManager.registerText),
-                  ),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          RoutesManager.registerRoute,
+                        ),
+                        child: const Text(StringsManager.registerText),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
