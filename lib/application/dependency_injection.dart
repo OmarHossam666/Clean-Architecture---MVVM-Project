@@ -14,7 +14,7 @@ import 'package:clean_architecture_mvvm/domain/usecases/store_details_usecase.da
 import 'package:clean_architecture_mvvm/presentation/details/view_model/store_details_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/forgot_password/view_model/forgot_password_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/login/view_model/login_view_model.dart';
-import 'package:clean_architecture_mvvm/presentation/main/view_models/home_view_model.dart';
+import 'package:clean_architecture_mvvm/presentation/main/home/view_model/home_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/register/view_model/register_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';

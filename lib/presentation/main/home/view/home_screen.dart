@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clean_architecture_mvvm/application/dependency_injection.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
-import 'package:clean_architecture_mvvm/presentation/main/view_models/home_view_model.dart';
+import 'package:clean_architecture_mvvm/presentation/main/home/view_model/home_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/routes_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
