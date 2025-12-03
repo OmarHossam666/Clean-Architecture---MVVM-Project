@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: Text(titles[currentIndex], style: StylesManager.titleTextStyle),
       ),
-      body: IndexedStack(index: currentIndex, children: screens),
+      body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: ColorsManager.primary,
