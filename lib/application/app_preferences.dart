@@ -1,4 +1,5 @@
 import 'package:clean_architecture_mvvm/presentation/resources/language_manager.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppPreferences {
@@ -17,6 +18,24 @@ class AppPreferences {
       return language;
     } else {
       return LanguageManager.english;
+    }
+  }
+
+  Future<void> changeLanguage() async {
+    String currentLanguage = getLanguage();
+    if (currentLanguage == LanguageManager.english) {
+      await sharedPreferences.setString(_languageKey, LanguageManager.arabic);
+    } else {
+      await sharedPreferences.setString(_languageKey, LanguageManager.english);
+    }
+  }
+
+  Future<Locale> getLocale() async {
+    String currentLanguage = getLanguage();
+    if (currentLanguage == LanguageManager.english) {
+      return LanguageManager.englishLocale;
+    } else {
+      return LanguageManager.arabicLocale;
     }
   }
 
@@ -47,6 +66,4 @@ class AppPreferences {
   Future<void> clear() async {
     await sharedPreferences.clear();
   }
-
-  
 }

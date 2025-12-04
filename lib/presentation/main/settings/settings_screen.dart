@@ -1,13 +1,17 @@
+import 'dart:math' as math;
+
 import 'package:clean_architecture_mvvm/application/app_preferences.dart';
 import 'package:clean_architecture_mvvm/application/dependency_injection.dart';
 import 'package:clean_architecture_mvvm/data/data_source/local_data_source.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/language_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/routes_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -22,7 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       title: StringsManager.changeLanguage.tr(),
       icon: Icons.translate,
       hasTrailingIcon: true,
-      onTap: () {},
+      onTap: () => _changeLanguage(context),
     ),
     SettingsItemData(
       title: StringsManager.contactUs.tr(),
@@ -49,16 +53,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _logout() async {
     _localDataSource.clearCache();
     await _appPreferences.clear();
-    resetModules();
 
     if (mounted) {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        RoutesManager.loginRoute,
-        (route) => false,
-      );
+      Navigator.pushReplacementNamed(context, RoutesManager.loginRoute);
     }
   }
+
+  Future<void> _changeLanguage(BuildContext context) async {
+    await _appPreferences.changeLanguage();
+    if (context.mounted) {
+      Phoenix.rebirth(context);
+    }
+  }
+
+  bool isRTL() => context.locale == LanguageManager.arabicLocale;
 
   @override
   Widget build(BuildContext context) {
@@ -91,10 +99,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         color: ColorsManager.primary,
       ),
       trailing: settingsItemData.hasTrailingIcon
-          ? const Icon(
-              Icons.arrow_forward_ios,
-              color: ColorsManager.primary,
-              size: ValuesManager.iconSize32,
+          ? Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(isRTL() ? math.pi : 0),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: ColorsManager.primary,
+                size: ValuesManager.iconSize32,
+              ),
             )
           : null,
       onTap: settingsItemData.onTap,

@@ -3,6 +3,7 @@ class AssetsManager {
 
   static const String imageBasePath = 'assets/images';
   static const String jsonBasePath = 'assets/json';
+  static const String translationBasePath = 'assets/translations';
 
   static const String splashLogo = '$imageBasePath/splash_logo.png';
   static const String splashLogo1_5x = '$imageBasePath/1.5x/splash_logo.png';
