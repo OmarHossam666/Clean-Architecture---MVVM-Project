@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:clean_architecture_mvvm/application/app_preferences.dart';
 import 'package:clean_architecture_mvvm/application/dependency_injection.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
@@ -24,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final AppPreferences _appPreferences = instance<AppPreferences>();
+  StreamSubscription<dynamic>? _loginSubscription;
 
   @override
   void initState() {
@@ -39,22 +42,25 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.addListener(
       () => _loginViewModel.setPassword(_passwordController.text),
     );
-    _loginViewModel.isLoggedInStreamController.stream.listen((
-      isLoggedIn,
-    ) async {
-      if (isLoggedIn) {
-        await _appPreferences.setLoggedIn(true);
-        SchedulerBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            Navigator.pushReplacementNamed(context, RoutesManager.mainRoute);
+    _loginSubscription = _loginViewModel.isLoggedInStreamController.stream
+        .listen((isLoggedIn) async {
+          if (isLoggedIn) {
+            await _appPreferences.setLoggedIn(true);
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                Navigator.pushReplacementNamed(
+                  context,
+                  RoutesManager.mainRoute,
+                );
+              }
+            });
           }
         });
-      }
-    });
   }
 
   @override
   void dispose() {
+    _loginSubscription?.cancel();
     _loginViewModel.dispose();
     _nameController.dispose();
     _passwordController.dispose();

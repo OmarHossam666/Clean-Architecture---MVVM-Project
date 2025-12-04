@@ -27,12 +27,14 @@ class StoreDetailsViewModel extends BaseViewModel
   }
 
   Future<void> getStoreDetails() async {
-    inputState.add(
-      LoadingState(
-        stateRendererType: StateRendererType.fullScreenLoadingState,
-        message: StringsManager.loading.tr(),
-      ),
-    );
+    if (!streamController.isClosed) {
+      inputState.add(
+        LoadingState(
+          stateRendererType: StateRendererType.fullScreenLoadingState,
+          message: StringsManager.loading.tr(),
+        ),
+      );
+    }
 
     await storeDetailsUsecase.execute(null).then((value) {
       value.fold(

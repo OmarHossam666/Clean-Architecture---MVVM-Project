@@ -7,11 +7,15 @@
   "ok": "OK",
   "empty": "No data available",
   "success_message": "Operation completed successfully",
+  "success": "Success",
   "name_error": "Name must be at least 8 characters long",
   "country_code_error": "Country code cannot be empty",
   "phone_number_error": "Phone number cannot be empty",
   "phone_number": "Phone Number",
   "profile_picture_error": "Profile picture should be png or jpg or jpeg",
+
+  "logout_confirmation": "Are you sure you want to logout?",
+  "cancel": "Cancel",
 
   "onboarding_title1": "SEE THE BEST COURSE #1",
   "onboarding_title2": "SEE THE BEST COURSE #2",
@@ -58,7 +62,6 @@
   "invite_your_friends": "Invite Your Friends",
   "logout": "Logout",
 
-  "success": "Your request was completed successfully.",
   "no_content": "Your request was processed successfully, but no data was returned.",
   "bad_request": "Sorry, we couldn't process your request. Please check your information and try again.",
   "forbidden": "You don't have permission to access this resource. Please contact support if you believe this is an error.",
@@ -67,7 +70,6 @@
   "internal_server_error": "Something went wrong on our end. We're working to fix it. Please try again later.",
 
   "connect_timeout": "The connection timed out. Please check your internet and try again.",
-  "cancel": "The request was cancelled. Please try again if needed.",
   "receive_timeout": "Taking too long to receive data. Please check your connection and try again.",
   "send_timeout": "Taking too long to send data. Please check your connection and try again.",
   "cache_error": "There was an issue with the cached data. Please refresh and try again.",

@@ -15,6 +15,11 @@ class StringsManager {
   static const String phoneNumberError = 'phone_number_error';
   static const String phoneNumber = 'phone_number';
   static const String profilePictureError = 'profile_picture_error';
+  static const String success = 'success';
+
+  // Confirmation Dialogs
+  static const String logoutConfirmation = 'logout_confirmation';
+  static const String cancel = 'cancel';
 
   // Onboarding Screen
   static const String onboardingTitle1 = 'onboarding_title1';
@@ -70,7 +75,6 @@ class StringsManager {
   static const String logout = 'logout';
 
   // Response Messages
-  static const String success = 'success';
   static const String noContent = 'no_content';
   static const String badRequest = 'bad_request';
   static const String forbidden = 'forbidden';
@@ -80,7 +84,6 @@ class StringsManager {
 
   // Local Response Message
   static const String connectTimeout = 'connect_timeout';
-  static const String cancel = 'cancel';
   static const String recieveTimeout = 'receive_timeout';
   static const String sendTimeout = 'send_timeout';
   static const String cacheError = 'cache_error';

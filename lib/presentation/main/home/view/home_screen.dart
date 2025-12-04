@@ -3,12 +3,14 @@ import 'package:clean_architecture_mvvm/application/dependency_injection.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
 import 'package:clean_architecture_mvvm/presentation/main/home/view_model/home_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/constants_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/routes_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide Banner;
+import 'package:flutter/services.dart';
 import 'package:clean_architecture_mvvm/domain/models/models.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,13 +20,17 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
   final HomeViewModel _homeViewModel = instance<HomeViewModel>();
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
-    _bind();
     super.initState();
+    _bind();
   }
 
   @override
@@ -39,19 +45,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(ValuesManager.padding16),
-      child: Center(
-        child: StreamBuilder<FlowState>(
-          stream: _homeViewModel.outputState,
-          builder: (context, snapshot) {
-            return snapshot.data?.getScreen(
-                  context,
-                  () => _homeViewModel.getHomeData(),
-                  _getContent(),
-                ) ??
-                _getContent();
-          },
+    super.build(context);
+    return RefreshIndicator(
+      onRefresh: () async {
+        HapticFeedback.mediumImpact();
+        _homeViewModel.getHomeData();
+      },
+      color: ColorsManager.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(ValuesManager.padding16),
+        child: Center(
+          child: StreamBuilder<FlowState>(
+            stream: _homeViewModel.outputState,
+            builder: (context, snapshot) {
+              return snapshot.data?.getScreen(
+                    context,
+                    () => _homeViewModel.getHomeData(),
+                    _getContent(),
+                  ) ??
+                  _getContent();
+            },
+          ),
         ),
       ),
     );
@@ -62,19 +76,23 @@ class _HomeScreenState extends State<HomeScreen> {
       stream: _homeViewModel.outputHome,
       builder: (context, snapshot) {
         if (snapshot.data == null) {
-          return Container();
+          return const SizedBox.shrink();
         }
         return SafeArea(
           child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
-              spacing: ValuesManager.spacing8,
               children: [
                 _getBanners(snapshot.data?.data.banners ?? []),
+                const SizedBox(height: ValuesManager.spacing16),
                 _getSection(StringsManager.services.tr()),
+                const SizedBox(height: ValuesManager.spacing8),
                 _getServices(snapshot.data?.data.services ?? []),
+                const SizedBox(height: ValuesManager.spacing16),
                 _getSection(StringsManager.stores.tr()),
+                const SizedBox(height: ValuesManager.spacing8),
                 _getStores(snapshot.data?.data.stores ?? []),
               ],
             ),
@@ -86,50 +104,84 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _getBanners(List<Banner> banners) {
     if (banners.isEmpty) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
-    return CarouselSlider(
-      items: banners.map((banner) => _getBanner(banner)).toList(),
-      options: CarouselOptions(
-        height: ValuesManager.height140,
-        viewportFraction: 0.8,
-        autoPlay: true,
-        enableInfiniteScroll: true,
-        autoPlayInterval: const Duration(seconds: 3),
-        autoPlayAnimationDuration: const Duration(seconds: 1),
-        autoPlayCurve: Curves.fastOutSlowIn,
-        enlargeCenterPage: true,
-        enlargeFactor: 0.3,
-        scrollDirection: Axis.horizontal,
+    return RepaintBoundary(
+      child: CarouselSlider(
+        items: banners.map((banner) => _getBanner(banner)).toList(),
+        options: CarouselOptions(
+          height: ValuesManager.height140,
+          viewportFraction: 0.85,
+          autoPlay: true,
+          enableInfiniteScroll: true,
+          autoPlayInterval: ConstantsManager.carouselAutoPlayInterval,
+          autoPlayAnimationDuration: ConstantsManager.carouselAnimationDuration,
+          autoPlayCurve: Curves.easeInOutCubic,
+          enlargeCenterPage: true,
+          enlargeFactor: 0.25,
+          scrollDirection: Axis.horizontal,
+        ),
       ),
     );
   }
 
   Widget _getBanner(Banner banner) {
-    return SizedBox(
-      width: double.infinity,
-      child: Card(
-        elevation: ValuesManager.elevation4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ValuesManager.radius16),
-          side: BorderSide(
-            color: ColorsManager.primary,
-            width: ValuesManager.width1,
+    return Semantics(
+      image: true,
+      label: banner.title,
+      child: SizedBox(
+        width: double.infinity,
+        child: Card(
+          elevation: ValuesManager.elevation2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ValuesManager.radius12),
           ),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadiusGeometry.circular(ValuesManager.radius16),
-          child: Image.network(banner.image, fit: BoxFit.cover),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Image.network(
+            banner.image,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Container(
+                color: ColorsManager.shimmerBase,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                        : null,
+                    color: ColorsManager.primary,
+                    strokeWidth: 2,
+                  ),
+                ),
+              );
+            },
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                color: ColorsManager.surfaceVariant,
+                child: const Center(
+                  child: Icon(
+                    Icons.broken_image_outlined,
+                    color: ColorsManager.grey,
+                    size: ValuesManager.iconSize48,
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
   Widget _getSection(String title) {
-    return Text(
-      title,
-      style: StylesManager.sectionHeaderTextStyle.copyWith(
-        color: ColorsManager.primary,
+    return Semantics(
+      header: true,
+      child: Text(
+        title,
+        style: StylesManager.sectionHeaderTextStyle.copyWith(
+          color: ColorsManager.primary,
+        ),
       ),
     );
   }
@@ -142,46 +194,77 @@ class _HomeScreenState extends State<HomeScreen> {
         physics: const BouncingScrollPhysics(),
         itemCount: services.length,
         itemBuilder: (context, index) {
-          return _getService(services[index]);
+          return Padding(
+            padding: EdgeInsets.only(
+              right: index < services.length - 1 ? ValuesManager.spacing8 : 0,
+            ),
+            child: _getService(services[index]),
+          );
         },
       ),
     );
   }
 
   Widget _getService(Service service) {
-    return SizedBox(
-      width: ValuesManager.width200,
-      child: Card(
-        color: ColorsManager.white,
-        shadowColor: ColorsManager.primary,
-        elevation: ValuesManager.elevation4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ValuesManager.radius16),
-          side: BorderSide(
-            color: ColorsManager.primary,
-            width: ValuesManager.width1,
+    return Semantics(
+      label: service.title,
+      child: SizedBox(
+        width: ValuesManager.width200,
+        child: Card(
+          color: ColorsManager.surface,
+          elevation: ValuesManager.elevation2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ValuesManager.radius12),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: ValuesManager.spacing8,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(
-                ValuesManager.radius16,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 3,
+                child: Image.network(
+                  service.image,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      color: ColorsManager.shimmerBase,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: ColorsManager.primary,
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: ColorsManager.surfaceVariant,
+                      child: const Center(
+                        child: Icon(
+                          Icons.broken_image_outlined,
+                          color: ColorsManager.grey,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-              child: Image.network(service.image, fit: BoxFit.cover),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: ValuesManager.padding8,
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(ValuesManager.padding8),
+                  child: Text(
+                    service.title,
+                    style: StylesManager.subtitleTextStyle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ),
-              child: Text(
-                service.title,
-                style: StylesManager.subtitleTextStyle,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -198,30 +281,65 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       itemCount: stores.length,
       itemBuilder: (context, index) {
-        return _getStore(stores[index], context);
+        return _StoreCard(store: stores[index]);
       },
     );
   }
 }
 
-Widget _getStore(Store store, BuildContext context) {
-  return InkWell(
-    onTap: () => Navigator.pushNamed(context, RoutesManager.detailsRoute),
-    child: Card(
-      color: ColorsManager.white,
-      shadowColor: ColorsManager.primary,
-      elevation: ValuesManager.elevation4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(ValuesManager.radius16),
-        side: BorderSide(
-          color: ColorsManager.primary,
-          width: ValuesManager.width1,
+class _StoreCard extends StatelessWidget {
+  const _StoreCard({required this.store});
+
+  final Store store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: store.title,
+      child: InkWell(
+        onTap: () {
+          HapticFeedback.lightImpact();
+          Navigator.pushNamed(context, RoutesManager.detailsRoute);
+        },
+        borderRadius: BorderRadius.circular(ValuesManager.radius12),
+        child: Card(
+          color: ColorsManager.surface,
+          elevation: ValuesManager.elevation2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ValuesManager.radius12),
+          ),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Image.network(
+            store.image,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Container(
+                color: ColorsManager.shimmerBase,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorsManager.primary,
+                    strokeWidth: 2,
+                  ),
+                ),
+              );
+            },
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                color: ColorsManager.surfaceVariant,
+                child: const Center(
+                  child: Icon(
+                    Icons.broken_image_outlined,
+                    color: ColorsManager.grey,
+                    size: ValuesManager.iconSize48,
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(ValuesManager.radius16),
-        child: Image.network(store.image, fit: BoxFit.cover),
-      ),
-    ),
-  );
+    );
+  }
 }

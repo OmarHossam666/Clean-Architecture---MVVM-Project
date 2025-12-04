@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:clean_architecture_mvvm/application/app_preferences.dart';
 import 'package:clean_architecture_mvvm/application/dependency_injection.dart';
@@ -31,6 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final RegisterViewModel _viewModel = instance<RegisterViewModel>();
   final ImagePicker _imagePicker = ImagePicker();
   final AppPreferences _appPreferences = instance<AppPreferences>();
+  StreamSubscription<bool>? _registerSubscription;
 
   @override
   void initState() {
@@ -50,7 +52,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _phoneController.addListener(
       () => _viewModel.setPhoneNumber(_phoneController.text),
     );
-    _viewModel.isRegisteredOutput.listen((isRegisterd) async {
+    _registerSubscription = _viewModel.isRegisteredOutput.listen((
+      isRegisterd,
+    ) async {
       if (isRegisterd && mounted) {
         await _appPreferences.setRegistered(true);
         SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -71,6 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() {
+    _registerSubscription?.cancel();
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();

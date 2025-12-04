@@ -1,4 +1,5 @@
 import 'package:clean_architecture_mvvm/presentation/resources/assets_manager.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
@@ -69,7 +70,7 @@ class StateRenderer extends StatelessWidget {
           _getMessage(message.isNotEmpty ? message : StringsManager.empty.tr()),
         ]);
       case StateRendererType.contentState:
-        return Container();
+        return const SizedBox.shrink();
       case StateRendererType.popupSuccessState:
         return _getPopupDialog([
           _getLottie(AssetsManager.successLottie),
@@ -83,87 +84,112 @@ class StateRenderer extends StatelessWidget {
   }
 
   Widget _getItems(List<Widget> children) {
-    return Column(
-      spacing: ValuesManager.spacing12,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: children,
+    return Center(
+      child: Semantics(
+        liveRegion: true,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: children
+              .map(
+                (child) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: ValuesManager.spacing4,
+                  ),
+                  child: child,
+                ),
+              )
+              .toList(),
+        ),
+      ),
     );
   }
 
   Widget _getLottie(String lottiePath) {
-    return Lottie.asset(
-      lottiePath,
-      width: ValuesManager.width100,
-      height: ValuesManager.height100,
+    return RepaintBoundary(
+      child: Lottie.asset(
+        lottiePath,
+        width: ValuesManager.width100,
+        height: ValuesManager.height100,
+        repeat: lottiePath == AssetsManager.loadingLottie,
+      ),
     );
   }
 
   Widget _getMessage(String message) {
-    return Text(
-      message,
-      style: StylesManager.titleTextStyle,
-      textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: ValuesManager.padding16),
+      child: Text(
+        message,
+        style: StylesManager.bodyTextStyle.copyWith(
+          color: ColorsManager.secondaryText,
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
   Widget _getTitle(String title) {
     return Text(
       title,
-      style: StylesManager.sectionHeaderTextStyle,
+      style: StylesManager.sectionHeaderTextStyle.copyWith(
+        color: ColorsManager.primaryText,
+      ),
       textAlign: TextAlign.center,
     );
   }
 
   Widget _getButton(String text, BuildContext context) {
-    return ElevatedButton(
-      child: Text(text, style: StylesManager.buttonTextStyle),
-      onPressed: () {
-        if (stateRendererType == StateRendererType.fullScreenErrorState) {
-          action.call();
-        } else {
-          Navigator.pop(context);
-          action.call();
-        }
-      },
+    return Padding(
+      padding: const EdgeInsets.only(top: ValuesManager.padding8),
+      child: SizedBox(
+        width: ValuesManager.width140,
+        child: ElevatedButton(
+          onPressed: () {
+            if (stateRendererType == StateRendererType.fullScreenErrorState) {
+              action.call();
+            } else {
+              Navigator.pop(context);
+              action.call();
+            }
+          },
+          child: Text(text, style: StylesManager.buttonTextStyle),
+        ),
+      ),
     );
   }
 
   Widget _getPopupDialog(List<Widget> children, BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: ColorsManager.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(ValuesManager.radius16),
       ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      shadowColor: Colors.black26,
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(ValuesManager.radius16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white70,
-              blurRadius: 4.0,
-              spreadRadius: 1.0,
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(ValuesManager.padding16),
-          child: _getDialogContent(children, context),
-        ),
+      elevation: ValuesManager.elevation8,
+      child: Padding(
+        padding: const EdgeInsets.all(ValuesManager.padding24),
+        child: _getDialogContent(children, context),
       ),
     );
   }
 
   Widget _getDialogContent(List<Widget> children, BuildContext context) {
     return Column(
-      spacing: ValuesManager.spacing12,
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: children,
+      children: children
+          .map(
+            (child) => Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: ValuesManager.spacing4,
+              ),
+              child: child,
+            ),
+          )
+          .toList(),
     );
   }
 }

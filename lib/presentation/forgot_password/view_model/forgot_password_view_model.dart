@@ -8,7 +8,6 @@ import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 
 class ForgotPasswordViewModel extends BaseViewModel
     implements ForgotPasswordViewModelInputs, ForgotPasswordViewModelOutputs {
@@ -83,10 +82,8 @@ class ForgotPasswordViewModel extends BaseViewModel
         });
   }
 
-  void navigateToLogin(BuildContext context) => Navigator.pop(context);
   @override
   Sink get isEmailValidInput => isEmailValidStreamController.sink;
-
   @override
   Stream<bool> get isEmailValidOutput => isEmailValidStreamController.stream;
 

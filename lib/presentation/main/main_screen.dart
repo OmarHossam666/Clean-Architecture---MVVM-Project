@@ -3,10 +3,13 @@ import 'package:clean_architecture_mvvm/presentation/main/notifications/notifica
 import 'package:clean_architecture_mvvm/presentation/main/search/search_screen.dart';
 import 'package:clean_architecture_mvvm/presentation/main/settings/settings_screen.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/constants_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,60 +20,82 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
+
   List<String> get titles => [
     StringsManager.home.tr(),
     StringsManager.search.tr(),
     StringsManager.notifications.tr(),
     StringsManager.settings.tr(),
   ];
-  final List<Widget> screens = [
+
+  // Using const constructors for better performance
+  static const List<Widget> _screens = [
     HomeScreen(),
     SearchScreen(),
     NotificationsScreen(),
     SettingsScreen(),
   ];
+
   List<BottomNavigationBarItem> get bottomNavigationBarItems => [
     BottomNavigationBarItem(
-      icon: Icon(Icons.home_outlined),
+      icon: const Icon(Icons.home_outlined),
       label: StringsManager.home.tr(),
-      activeIcon: Icon(Icons.home),
+      activeIcon: const Icon(Icons.home),
+      tooltip: StringsManager.home.tr(),
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.search_outlined),
+      icon: const Icon(Icons.search_outlined),
       label: StringsManager.search.tr(),
-      activeIcon: Icon(Icons.search),
+      activeIcon: const Icon(Icons.search),
+      tooltip: StringsManager.search.tr(),
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.notifications_outlined),
+      icon: const Icon(Icons.notifications_outlined),
       label: StringsManager.notifications.tr(),
-      activeIcon: Icon(Icons.notifications),
+      activeIcon: const Icon(Icons.notifications),
+      tooltip: StringsManager.notifications.tr(),
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.settings_outlined),
+      icon: const Icon(Icons.settings_outlined),
       label: StringsManager.settings.tr(),
-      activeIcon: Icon(Icons.settings),
+      activeIcon: const Icon(Icons.settings),
+      tooltip: StringsManager.settings.tr(),
     ),
   ];
+
+  void _onItemTapped(int index) {
+    if (index != currentIndex) {
+      HapticFeedback.selectionClick();
+      setState(() {
+        currentIndex = index;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(titles[currentIndex], style: StylesManager.titleTextStyle),
+        title: Semantics(
+          header: true,
+          child: Text(
+            titles[currentIndex],
+            style: StylesManager.titleTextStyle,
+          ),
+        ),
       ),
-      body: screens[currentIndex],
+      body: IndexedStack(index: currentIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: ColorsManager.primary,
         unselectedItemColor: ColorsManager.grey,
-        backgroundColor: ColorsManager.white,
+        backgroundColor: ColorsManager.surface,
+        elevation: ValuesManager.elevation8,
+        selectedFontSize: ConstantsManager.bottomNavSelectedFontSize,
+        unselectedFontSize: ConstantsManager.bottomNavUnselectedFontSize,
         items: bottomNavigationBarItems,
         currentIndex: currentIndex,
-        onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
-        },
+        onTap: _onItemTapped,
       ),
     );
   }

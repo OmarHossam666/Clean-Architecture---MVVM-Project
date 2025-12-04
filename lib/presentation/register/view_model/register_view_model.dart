@@ -6,6 +6,7 @@ import 'package:clean_architecture_mvvm/presentation/base/base_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/common/freezed_data_classes.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/constants_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
@@ -115,11 +116,13 @@ class RegisterViewModel extends BaseViewModel
   @override
   Sink get phoneNumberInput => phoneNumberStreamController.sink;
 
-  bool _isNameValid(String name) => name.length >= 8;
+  bool _isNameValid(String name) =>
+      name.length >= ConstantsManager.minNameLength;
 
   bool _isCountryCodeValid(String countryCode) => countryCode.isNotEmpty;
 
-  bool _isPasswordValid(String password) => password.length >= 8;
+  bool _isPasswordValid(String password) =>
+      password.length >= ConstantsManager.minPasswordLength;
 
   bool _isPhoneNumberValid(String phoneNumber) => phoneNumber.isNotEmpty;
 

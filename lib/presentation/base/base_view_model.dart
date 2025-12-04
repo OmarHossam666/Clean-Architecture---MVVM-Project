@@ -14,8 +14,18 @@ abstract class BaseViewModel
   @override
   Stream<FlowState> get outputState => streamController.stream;
 
+  /// Safely emits a [FlowState] to the stream if the controller is not closed.
+  ///
+  /// This method should be used instead of directly calling `inputState.add()`
+  /// to prevent errors when the controller is already disposed.
+  void safeEmitState(FlowState state) {
+    if (!streamController.isClosed) {
+      inputState.add(state);
+    }
+  }
+
   void resetToContentState() {
-    inputState.add(ContentState());
+    safeEmitState(ContentState());
   }
 
   @override

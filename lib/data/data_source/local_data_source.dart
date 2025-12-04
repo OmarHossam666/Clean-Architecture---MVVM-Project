@@ -1,9 +1,6 @@
+import 'package:clean_architecture_mvvm/application/app_constants.dart';
 import 'package:clean_architecture_mvvm/data/error/error_handler.dart';
 import 'package:clean_architecture_mvvm/data/response/responses.dart';
-
-const String homeCacheKey = 'home';
-const String storeDetailsCacheKey = 'storeDetails';
-const int cacheDuration = 60 * 1000;
 
 abstract class LocalDataSource {
   Future<HomeResponse> getHomeData();
@@ -19,13 +16,14 @@ class LocalDataSourceImplementation implements LocalDataSource {
 
   @override
   Future<void> cacheHomeData(HomeResponse homeResponse) async {
-    cache[homeCacheKey] = CachedItem(data: homeResponse);
+    cache[AppConstants.homeCacheKey] = CachedItem(data: homeResponse);
   }
 
   @override
   Future<HomeResponse> getHomeData() async {
-    final cachedItem = cache[homeCacheKey];
-    if (cachedItem != null && cachedItem.isValid(cacheDuration)) {
+    final cachedItem = cache[AppConstants.homeCacheKey];
+    if (cachedItem != null &&
+        cachedItem.isValid(AppConstants.cacheDurationMs)) {
       return cachedItem.data;
     } else {
       throw ErrorHandler.handle(DataSource.CACHE_ERROR);
@@ -46,14 +44,17 @@ class LocalDataSourceImplementation implements LocalDataSource {
   Future<void> cacheStoreDetails(
     StoreDetailsResponse storeDetailsResponse,
   ) async {
-    cache[storeDetailsCacheKey] = CachedItem(data: storeDetailsResponse);
+    cache[AppConstants.storeDetailsCacheKey] = CachedItem(
+      data: storeDetailsResponse,
+    );
   }
 
   @override
   Future<StoreDetailsResponse> getStoreDetails() async {
-    final cachedItem = cache[storeDetailsCacheKey];
+    final cachedItem = cache[AppConstants.storeDetailsCacheKey];
 
-    if (cachedItem != null && cachedItem.isValid(cacheDuration)) {
+    if (cachedItem != null &&
+        cachedItem.isValid(AppConstants.cacheDurationMs)) {
       return cachedItem.data;
     } else {
       throw ErrorHandler.handle(DataSource.CACHE_ERROR);
