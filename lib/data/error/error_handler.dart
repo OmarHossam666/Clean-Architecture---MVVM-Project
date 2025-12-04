@@ -1,7 +1,8 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
 import 'package:clean_architecture_mvvm/data/failure/failure.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ErrorHandler implements Exception {
   late Failure failure;
@@ -161,23 +162,24 @@ class ResponseCode {
 
 class ResponseMessage {
   // Remote Response Message
-  static const String SUCCESS = StringsManager.success;
-  static const String NO_CONTENT = StringsManager.noContent;
-  static const String BAD_REQUEST = StringsManager.badRequest;
-  static const String FORBIDDEN = StringsManager.forbidden;
-  static const String UNAUTHORISED = StringsManager.unauthorised;
-  static const String NOT_FOUND = StringsManager.notFound;
-  static const String INTERNAL_SERVER_ERROR =
-      StringsManager.internalServerError;
+  static String get SUCCESS => StringsManager.success.tr();
+  static String get NO_CONTENT => StringsManager.noContent.tr();
+  static String get BAD_REQUEST => StringsManager.badRequest.tr();
+  static String get FORBIDDEN => StringsManager.forbidden.tr();
+  static String get UNAUTHORISED => StringsManager.unauthorised.tr();
+  static String get NOT_FOUND => StringsManager.notFound.tr();
+  static String get INTERNAL_SERVER_ERROR =>
+      StringsManager.internalServerError.tr();
 
   // Local Response Message
-  static const String CONNECT_TIMEOUT = StringsManager.connectTimeout;
-  static const String CANCEL = StringsManager.cancel;
-  static const String RECIEVE_TIMEOUT = StringsManager.recieveTimeout;
-  static const String SEND_TIMEOUT = StringsManager.sendTimeout;
-  static const String CACHE_ERROR = StringsManager.cacheError;
-  static const String NO_INTERNET_CONNECTION = StringsManager.noInternetConnection;
-  static const String UNKNOWN = StringsManager.unknown;
+  static String get CONNECT_TIMEOUT => StringsManager.connectTimeout.tr();
+  static String get CANCEL => StringsManager.cancel.tr();
+  static String get RECIEVE_TIMEOUT => StringsManager.recieveTimeout.tr();
+  static String get SEND_TIMEOUT => StringsManager.sendTimeout.tr();
+  static String get CACHE_ERROR => StringsManager.cacheError.tr();
+  static String get NO_INTERNET_CONNECTION =>
+      StringsManager.noInternetConnection.tr();
+  static String get UNKNOWN => StringsManager.unknown.tr();
 }
 
 class ApiInternalStatus {

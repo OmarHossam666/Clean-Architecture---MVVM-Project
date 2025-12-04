@@ -6,6 +6,7 @@ import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.da
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
@@ -38,7 +39,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(StringsManager.storeDetails)),
+      appBar: AppBar(title: Text(StringsManager.storeDetails.tr())),
       body: Padding(
         padding: const EdgeInsets.all(ValuesManager.padding16),
         child: Center(
@@ -75,11 +76,11 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
               spacing: ValuesManager.spacing12,
               children: [
                 Image.network(storeDetails.image, width: double.infinity),
-                _getSection(StringsManager.details),
+                _getSection(StringsManager.details.tr()),
                 Text(storeDetails.details, style: StylesManager.bodyTextStyle),
-                _getSection(StringsManager.services),
+                _getSection(StringsManager.services.tr()),
                 Text(storeDetails.services, style: StylesManager.bodyTextStyle),
-                _getSection(StringsManager.about),
+                _getSection(StringsManager.about.tr()),
                 Text(storeDetails.about, style: StylesManager.bodyTextStyle),
               ],
             ),

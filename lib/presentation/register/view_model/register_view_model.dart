@@ -7,6 +7,7 @@ import 'package:clean_architecture_mvvm/presentation/common/freezed_data_classes
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegisterViewModel extends BaseViewModel
@@ -53,7 +54,7 @@ class RegisterViewModel extends BaseViewModel
 
   @override
   Stream<String?> get countryCodeErrorOutput => isCountryCodeValidOutput.map(
-    (isValid) => isValid ? null : StringsManager.countryCodeError,
+    (isValid) => isValid ? null : StringsManager.countryCodeError.tr(),
   );
 
   @override
@@ -61,7 +62,7 @@ class RegisterViewModel extends BaseViewModel
 
   @override
   Stream<String?> get emailErrorOutput => isEmailValidOutput.map(
-    (isValid) => isValid ? null : StringsManager.emailError,
+    (isValid) => isValid ? null : StringsManager.emailError.tr(),
   );
 
   @override
@@ -92,7 +93,7 @@ class RegisterViewModel extends BaseViewModel
 
   @override
   Stream<String?> get nameErrorOutput => isNameValidOutput.map(
-    (isValid) => isValid ? null : StringsManager.nameError,
+    (isValid) => isValid ? null : StringsManager.nameError.tr(),
   );
 
   @override
@@ -100,7 +101,7 @@ class RegisterViewModel extends BaseViewModel
 
   @override
   Stream<String?> get passwordErrorOutput => isPasswordValidOutput.map(
-    (isValid) => isValid ? null : StringsManager.passwordError,
+    (isValid) => isValid ? null : StringsManager.passwordError.tr(),
   );
 
   @override
@@ -108,7 +109,7 @@ class RegisterViewModel extends BaseViewModel
 
   @override
   Stream<String?> get phoneNumberErrorOutput => isPhoneNumberValidOutput.map(
-    (isValid) => isValid ? null : StringsManager.phoneNumberError,
+    (isValid) => isValid ? null : StringsManager.phoneNumberError.tr(),
   );
 
   @override
@@ -128,7 +129,7 @@ class RegisterViewModel extends BaseViewModel
       inputState.add(
         LoadingState(
           stateRendererType: StateRendererType.popupLoadingState,
-          message: StringsManager.loading,
+          message: StringsManager.loading.tr(),
         ),
       );
     }

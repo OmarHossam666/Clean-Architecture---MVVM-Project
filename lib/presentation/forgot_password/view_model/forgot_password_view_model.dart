@@ -7,6 +7,7 @@ import 'package:clean_architecture_mvvm/presentation/common/freezed_data_classes
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordViewModel extends BaseViewModel
@@ -44,7 +45,7 @@ class ForgotPasswordViewModel extends BaseViewModel
       inputState.add(
         LoadingState(
           stateRendererType: StateRendererType.popupLoadingState,
-          message: StringsManager.loading,
+          message: StringsManager.loading.tr(),
         ),
       );
     }
@@ -69,7 +70,8 @@ class ForgotPasswordViewModel extends BaseViewModel
                   SuccessState(
                     stateRendererType: StateRendererType.popupSuccessState,
                     message:
-                        forgotPassword.support ?? StringsManager.successMessage,
+                        forgotPassword.support ??
+                        StringsManager.successMessage.tr(),
                   ),
                 );
               }

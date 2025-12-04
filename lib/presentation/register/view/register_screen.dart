@@ -10,6 +10,7 @@ import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.d
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
@@ -119,8 +120,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _nameController,
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
-                        hintText: StringsManager.userName,
-                        labelText: StringsManager.userName,
+                        hintText: StringsManager.userName.tr(),
+                        labelText: StringsManager.userName.tr(),
                         errorText: snapshot.data,
                       ),
                     );
@@ -136,13 +137,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         builder: (context, snapshot) {
                           return CountryCodePicker(
                             onInit: (countryCode) => _viewModel.setCountryCode(
-                              countryCode?.dialCode ?? StringsManager.plus20,
+                              countryCode?.dialCode ??
+                                  StringsManager.plus20.tr(),
                             ),
                             onChanged: (countryCode) =>
                                 _viewModel.setCountryCode(
-                                  countryCode.dialCode ?? StringsManager.plus20,
+                                  countryCode.dialCode ??
+                                      StringsManager.plus20.tr(),
                                 ),
-                            initialSelection: StringsManager.plus20,
+                            initialSelection: StringsManager.plus20.tr(),
                             showFlag: true,
                             showCountryOnly: true,
                             showFlagDialog: true,
@@ -166,8 +169,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             controller: _phoneController,
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
-                              hintText: StringsManager.phoneNumber,
-                              labelText: StringsManager.phoneNumber,
+                              hintText: StringsManager.phoneNumber.tr(),
+                              labelText: StringsManager.phoneNumber.tr(),
                               errorText: snapshot.data,
                             ),
                           );
@@ -184,8 +187,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        hintText: StringsManager.email,
-                        labelText: StringsManager.email,
+                        hintText: StringsManager.email.tr(),
+                        labelText: StringsManager.email.tr(),
                         errorText: snapshot.data,
                       ),
                     );
@@ -199,8 +202,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _passwordController,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
-                        hintText: StringsManager.password,
-                        labelText: StringsManager.password,
+                        hintText: StringsManager.password.tr(),
+                        labelText: StringsManager.password.tr(),
                         errorText: snapshot.data,
                       ),
                     );
@@ -244,7 +247,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               _viewModel.register();
                             }
                           : null,
-                      child: const Text(StringsManager.register),
+                      child: Text(StringsManager.register.tr()),
                     );
                   },
                 ),
@@ -258,7 +261,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           context,
                           RoutesManager.loginRoute,
                         ),
-                        child: const Text(StringsManager.loginText),
+                        child: Text(StringsManager.loginText.tr()),
                       ),
                     ),
                   ],

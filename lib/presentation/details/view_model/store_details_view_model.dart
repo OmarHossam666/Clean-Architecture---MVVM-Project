@@ -4,6 +4,7 @@ import 'package:clean_architecture_mvvm/presentation/base/base_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer.dart';
 import 'package:clean_architecture_mvvm/presentation/common/state_renderer/state_renderer_implementation.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:rxdart/rxdart.dart';
 
 class StoreDetailsViewModel extends BaseViewModel
@@ -29,7 +30,7 @@ class StoreDetailsViewModel extends BaseViewModel
     inputState.add(
       LoadingState(
         stateRendererType: StateRendererType.fullScreenLoadingState,
-        message: StringsManager.loading,
+        message: StringsManager.loading.tr(),
       ),
     );
 

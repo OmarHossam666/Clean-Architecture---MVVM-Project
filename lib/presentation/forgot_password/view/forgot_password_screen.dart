@@ -5,6 +5,7 @@ import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.da
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -74,12 +75,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: StringsManager.email,
+                    hintText: StringsManager.email.tr(),
                     hintStyle: StylesManager.hintTextStyle,
                     errorText: (isEmailValid == null || isEmailValid)
                         ? null
-                        : StringsManager.emailError,
-                    labelText: StringsManager.email,
+                        : StringsManager.emailError.tr(),
+                    labelText: StringsManager.email.tr(),
                     fillColor: ColorsManager.white,
                     filled: true,
                   ),
@@ -97,7 +98,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         }
                       : null,
                   child: Text(
-                    StringsManager.resetPassword,
+                    StringsManager.resetPassword.tr(),
                     style: StylesManager.buttonTextStyle,
                   ),
                 );

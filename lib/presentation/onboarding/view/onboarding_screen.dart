@@ -9,6 +9,7 @@ import 'package:clean_architecture_mvvm/presentation/resources/routes_manager.da
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -86,7 +87,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   foregroundColor: ColorsManager.primary,
                   textStyle: StylesManager.skipTextStyle,
                 ),
-                child: Text(StringsManager.skip),
+                child: Text(StringsManager.skip.tr()),
               ),
             ),
             Expanded(

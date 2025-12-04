@@ -7,6 +7,7 @@ import 'package:clean_architecture_mvvm/presentation/resources/routes_manager.da
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide Banner;
 import 'package:clean_architecture_mvvm/domain/models/models.dart';
 
@@ -71,9 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
               spacing: ValuesManager.spacing8,
               children: [
                 _getBanners(snapshot.data?.data.banners ?? []),
-                _getSection(StringsManager.services),
+                _getSection(StringsManager.services.tr()),
                 _getServices(snapshot.data?.data.services ?? []),
-                _getSection(StringsManager.stores),
+                _getSection(StringsManager.stores.tr()),
                 _getStores(snapshot.data?.data.stores ?? []),
               ],
             ),

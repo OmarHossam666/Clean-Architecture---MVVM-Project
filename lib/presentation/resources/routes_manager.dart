@@ -8,6 +8,7 @@ import 'package:clean_architecture_mvvm/presentation/register/view/register_scre
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/splash/splash_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class RoutesManager {
@@ -45,7 +46,9 @@ class RoutesManager {
         return MaterialPageRoute(builder: (context) => const MainScreen());
       case RoutesManager.detailsRoute:
         initStoreDetailsModule();
-        return MaterialPageRoute(builder: (context) => const StoreDetailsScreen());
+        return MaterialPageRoute(
+          builder: (context) => const StoreDetailsScreen(),
+        );
       default:
         return unDefinedRoute();
     }
@@ -53,10 +56,10 @@ class RoutesManager {
 
   static Route<dynamic> unDefinedRoute() {
     return MaterialPageRoute(
-      builder: (context) => const Scaffold(
+      builder: (context) => Scaffold(
         body: Center(
           child: Text(
-            StringsManager.noRouteFound,
+            StringsManager.noRouteFound.tr(),
             style: StylesManager.titleTextStyle,
           ),
         ),

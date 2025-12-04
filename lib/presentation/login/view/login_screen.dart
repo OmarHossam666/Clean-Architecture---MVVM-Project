@@ -7,6 +7,7 @@ import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.da
 import 'package:clean_architecture_mvvm/presentation/resources/routes_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -101,11 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _nameController,
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
-                        hintText: StringsManager.userName,
-                        labelText: StringsManager.userName,
+                        hintText: StringsManager.userName.tr(),
+                        labelText: StringsManager.userName.tr(),
                         errorText: (snapshot.data ?? true)
                             ? null
-                            : StringsManager.userNameError,
+                            : StringsManager.userNameError.tr(),
                       ),
                     );
                   },
@@ -118,11 +119,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _passwordController,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
-                        hintText: StringsManager.password,
-                        labelText: StringsManager.password,
+                        hintText: StringsManager.password.tr(),
+                        labelText: StringsManager.password.tr(),
                         errorText: (snapshot.data ?? true)
                             ? null
-                            : StringsManager.passwordError,
+                            : StringsManager.passwordError.tr(),
                       ),
                     );
                   },
@@ -137,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               _loginViewModel.login();
                             }
                           : null,
-                      child: const Text(StringsManager.login),
+                      child: Text(StringsManager.login.tr()),
                     );
                   },
                 ),
@@ -151,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           context,
                           RoutesManager.forgotPasswordRoute,
                         ),
-                        child: const Text(StringsManager.forgotPassword),
+                        child: Text(StringsManager.forgotPassword.tr()),
                       ),
                     ),
                     Expanded(
@@ -160,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           context,
                           RoutesManager.registerRoute,
                         ),
-                        child: const Text(StringsManager.registerText),
+                        child: Text(StringsManager.registerText.tr()),
                       ),
                     ),
                   ],

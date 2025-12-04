@@ -4,36 +4,34 @@ import 'package:clean_architecture_mvvm/domain/models/models.dart';
 import 'package:clean_architecture_mvvm/presentation/base/base_view_model.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/assets_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 
-class OnboardingViewModel
-    extends
-        BaseViewModel implements
-        OnboardingViewModelInput,
-        OnboardingViewModelOutput {
+class OnboardingViewModel extends BaseViewModel
+    implements OnboardingViewModelInput, OnboardingViewModelOutput {
   final StreamController<OnboardingModel> _streamController =
       StreamController<OnboardingModel>();
   int currentIndex = 0;
-  final List<OnboardingData> onboardingDataList = [
+  List<OnboardingData> get onboardingDataList => [
     OnboardingData(
       image: AssetsManager.onboardingLogo1,
-      title: StringsManager.onboardingTitle1,
-      subtitle: StringsManager.onboardingSubtitle1,
+      title: StringsManager.onboardingTitle1.tr(),
+      subtitle: StringsManager.onboardingSubtitle1.tr(),
     ),
     OnboardingData(
       image: AssetsManager.onboardingLogo2,
-      title: StringsManager.onboardingTitle2,
-      subtitle: StringsManager.onboardingSubtitle2,
+      title: StringsManager.onboardingTitle2.tr(),
+      subtitle: StringsManager.onboardingSubtitle2.tr(),
     ),
     OnboardingData(
       image: AssetsManager.onboardingLogo3,
-      title: StringsManager.onboardingTitle3,
-      subtitle: StringsManager.onboardingSubtitle3,
+      title: StringsManager.onboardingTitle3.tr(),
+      subtitle: StringsManager.onboardingSubtitle3.tr(),
     ),
     OnboardingData(
       image: AssetsManager.onboardingLogo4,
-      title: StringsManager.onboardingTitle4,
-      subtitle: StringsManager.onboardingSubtitle4,
+      title: StringsManager.onboardingTitle4.tr(),
+      subtitle: StringsManager.onboardingSubtitle4.tr(),
     ),
   ];
   bool get isLastPage => currentIndex == onboardingDataList.length - 1;

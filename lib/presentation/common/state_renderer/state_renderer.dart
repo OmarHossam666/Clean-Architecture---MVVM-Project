@@ -2,6 +2,7 @@ import 'package:clean_architecture_mvvm/presentation/resources/assets_manager.da
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -39,29 +40,33 @@ class StateRenderer extends StatelessWidget {
       case StateRendererType.popupLoadingState:
         return _getPopupDialog([
           _getLottie(AssetsManager.loadingLottie),
-          _getMessage(message.isNotEmpty ? message : StringsManager.loading),
+          _getMessage(
+            message.isNotEmpty ? message : StringsManager.loading.tr(),
+          ),
         ], context);
       case StateRendererType.popupErrorState:
         return _getPopupDialog([
           _getLottie(AssetsManager.errorLottie),
-          _getMessage(message.isNotEmpty ? message : StringsManager.error),
-          _getButton(StringsManager.tryAgain, context),
+          _getMessage(message.isNotEmpty ? message : StringsManager.error.tr()),
+          _getButton(StringsManager.tryAgain.tr(), context),
         ], context);
       case StateRendererType.fullScreenLoadingState:
         return _getItems([
           _getLottie(AssetsManager.loadingLottie),
-          _getMessage(message.isNotEmpty ? message : StringsManager.loading),
+          _getMessage(
+            message.isNotEmpty ? message : StringsManager.loading.tr(),
+          ),
         ]);
       case StateRendererType.fullScreenErrorState:
         return _getItems([
           _getLottie(AssetsManager.errorLottie),
-          _getMessage(message.isNotEmpty ? message : StringsManager.error),
-          _getButton(StringsManager.tryAgain, context),
+          _getMessage(message.isNotEmpty ? message : StringsManager.error.tr()),
+          _getButton(StringsManager.tryAgain.tr(), context),
         ]);
       case StateRendererType.fullScreenEmptyState:
         return _getItems([
           _getLottie(AssetsManager.emptyLottie),
-          _getMessage(message.isNotEmpty ? message : StringsManager.empty),
+          _getMessage(message.isNotEmpty ? message : StringsManager.empty.tr()),
         ]);
       case StateRendererType.contentState:
         return Container();
@@ -70,9 +75,9 @@ class StateRenderer extends StatelessWidget {
           _getLottie(AssetsManager.successLottie),
           _getTitle(title),
           _getMessage(
-            message.isNotEmpty ? message : StringsManager.successMessage,
+            message.isNotEmpty ? message : StringsManager.successMessage.tr(),
           ),
-          _getButton(StringsManager.ok, context),
+          _getButton(StringsManager.ok.tr(), context),
         ], context);
     }
   }

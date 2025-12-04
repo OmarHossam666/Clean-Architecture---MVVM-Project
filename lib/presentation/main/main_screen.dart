@@ -5,6 +5,7 @@ import 'package:clean_architecture_mvvm/presentation/main/settings/settings_scre
 import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,11 +17,11 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
-  final List<String> titles = [
-    StringsManager.home,
-    StringsManager.search,
-    StringsManager.notifications,
-    StringsManager.settings,
+  List<String> get titles => [
+    StringsManager.home.tr(),
+    StringsManager.search.tr(),
+    StringsManager.notifications.tr(),
+    StringsManager.settings.tr(),
   ];
   final List<Widget> screens = [
     HomeScreen(),
@@ -28,25 +29,25 @@ class _MainScreenState extends State<MainScreen> {
     NotificationsScreen(),
     SettingsScreen(),
   ];
-  final List<BottomNavigationBarItem> bottomNavigationBarItems = [
+  List<BottomNavigationBarItem> get bottomNavigationBarItems => [
     BottomNavigationBarItem(
       icon: Icon(Icons.home_outlined),
-      label: StringsManager.home,
+      label: StringsManager.home.tr(),
       activeIcon: Icon(Icons.home),
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.search_outlined),
-      label: StringsManager.search,
+      label: StringsManager.search.tr(),
       activeIcon: Icon(Icons.search),
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.notifications_outlined),
-      label: StringsManager.notifications,
+      label: StringsManager.notifications.tr(),
       activeIcon: Icon(Icons.notifications),
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.settings_outlined),
-      label: StringsManager.settings,
+      label: StringsManager.settings.tr(),
       activeIcon: Icon(Icons.settings),
     ),
   ];

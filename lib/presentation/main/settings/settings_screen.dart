@@ -6,6 +6,7 @@ import 'package:clean_architecture_mvvm/presentation/resources/routes_manager.da
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/styles_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -18,25 +19,25 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late List<SettingsItemData> settingsItems = [
     SettingsItemData(
-      title: StringsManager.changeLanguage,
+      title: StringsManager.changeLanguage.tr(),
       icon: Icons.translate,
       hasTrailingIcon: true,
       onTap: () {},
     ),
     SettingsItemData(
-      title: StringsManager.contactUs,
+      title: StringsManager.contactUs.tr(),
       icon: Icons.contact_mail,
       hasTrailingIcon: true,
       onTap: () {},
     ),
     SettingsItemData(
-      title: StringsManager.inviteYourFriends,
+      title: StringsManager.inviteYourFriends.tr(),
       icon: Icons.share,
       hasTrailingIcon: true,
       onTap: () {},
     ),
     SettingsItemData(
-      title: StringsManager.logout,
+      title: StringsManager.logout.tr(),
       icon: Icons.logout,
       hasTrailingIcon: false,
       onTap: () => _logout(),
