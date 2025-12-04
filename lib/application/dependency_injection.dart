@@ -106,3 +106,31 @@ void initStoreDetailsModule() {
     );
   }
 }
+
+void resetModules() {
+  // Unregister LoginModule
+  if (GetIt.I.isRegistered<LoginUsecase>()) {
+    instance.unregister<LoginUsecase>();
+    instance.unregister<LoginViewModel>();
+  }
+  // Unregister ForgotPasswordModule
+  if (GetIt.I.isRegistered<ForgotPasswordUsecase>()) {
+    instance.unregister<ForgotPasswordUsecase>();
+    instance.unregister<ForgotPasswordViewModel>();
+  }
+  // Unregister RegisterModule
+  if (GetIt.I.isRegistered<RegisterUsecase>()) {
+    instance.unregister<RegisterUsecase>();
+    instance.unregister<RegisterViewModel>();
+  }
+  // Unregister HomeModule
+  if (GetIt.I.isRegistered<HomeUsecase>()) {
+    instance.unregister<HomeUsecase>();
+    instance.unregister<HomeViewModel>();
+  }
+  // Unregister StoreDetailsModule
+  if (GetIt.I.isRegistered<StoreDetailsUsecase>()) {
+    instance.unregister<StoreDetailsUsecase>();
+    instance.unregister<StoreDetailsViewModel>();
+  }
+}

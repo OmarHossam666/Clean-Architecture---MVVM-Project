@@ -27,19 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _goNext() {
-    if (_appPreferences.isOnboardingCompleted()) {
-      Navigator.pushReplacementNamed(context, RoutesManager.loginRoute);
-    } else {
+    if (!_appPreferences.isOnboardingCompleted()) {
       Navigator.pushReplacementNamed(context, RoutesManager.onboardingRoute);
-    }
-
-    if (_appPreferences.isRegistered()) {
-      Navigator.pushReplacementNamed(context, RoutesManager.loginRoute);
-    } else {
-      Navigator.pushReplacementNamed(context, RoutesManager.registerRoute);
-    }
-
-    if (_appPreferences.isLoggedIn()) {
+    } else if (_appPreferences.isLoggedIn()) {
       Navigator.pushReplacementNamed(context, RoutesManager.mainRoute);
     } else {
       Navigator.pushReplacementNamed(context, RoutesManager.loginRoute);

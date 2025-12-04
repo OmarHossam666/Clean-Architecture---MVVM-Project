@@ -155,6 +155,10 @@ bool isDialogShowing(BuildContext context) =>
 
 void dismissDialog(BuildContext context) {
   if (isDialogShowing(context)) {
-    Navigator.of(context, rootNavigator: true).pop();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted && isDialogShowing(context)) {
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+    });
   }
 }

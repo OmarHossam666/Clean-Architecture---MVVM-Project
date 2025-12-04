@@ -1,5 +1,6 @@
 import 'package:clean_architecture_mvvm/application/app_preferences.dart';
 import 'package:clean_architecture_mvvm/application/dependency_injection.dart';
+import 'package:clean_architecture_mvvm/data/data_source/local_data_source.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/colors_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/routes_manager.dart';
 import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
@@ -42,12 +43,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ),
   ];
   final AppPreferences _appPreferences = instance<AppPreferences>();
+  final LocalDataSource _localDataSource = instance<LocalDataSource>();
 
   Future<void> _logout() async {
+    _localDataSource.clearCache();
     await _appPreferences.clear();
+    resetModules();
 
     if (mounted) {
-      Navigator.pushReplacementNamed(context, RoutesManager.loginRoute);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        RoutesManager.loginRoute,
+        (route) => false,
+      );
     }
   }
 
@@ -72,7 +80,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _getSettingsItem(SettingsItemData settingsItemData) {
     return ListTile(
       contentPadding: EdgeInsets.all(ValuesManager.padding8),
-      title: Text(settingsItemData.title, style: StylesManager.titleTextStyle),
+      title: Text(
+        settingsItemData.title,
+        style: StylesManager.sectionHeaderTextStyle,
+      ),
       leading: Icon(
         settingsItemData.icon,
         size: ValuesManager.iconSize32,
