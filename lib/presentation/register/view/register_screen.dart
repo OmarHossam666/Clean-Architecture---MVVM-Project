@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         builder: (context, snapshot) =>
             snapshot.data?.getScreen(
               context,
-              () => _viewModel.register(),
+              () => _viewModel.resetToContentState(),
               _getContent(),
             ) ??
             _getContent(),

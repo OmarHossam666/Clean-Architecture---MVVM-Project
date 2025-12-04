@@ -40,32 +40,42 @@ class ForgotPasswordViewModel extends BaseViewModel
 
   @override
   Future<void> forgotPassword() async {
-    inputState.add(
-      LoadingState(
-        stateRendererType: StateRendererType.popupLoadingState,
-        message: StringsManager.loading,
-      ),
-    );
+    if (!streamController.isClosed) {
+      inputState.add(
+        LoadingState(
+          stateRendererType: StateRendererType.popupLoadingState,
+          message: StringsManager.loading,
+        ),
+      );
+    }
 
     await forgotPasswordUsecase
         .execute(ForgotPasswordUsecaseInput(email: forgotPasswordObject.email))
         .then((value) {
           value.fold(
-            (failure) => inputState.add(
-              ErrorState(
-                stateRendererType: StateRendererType.popupErrorState,
-                message: failure.message,
-              ),
-            ),
+            (failure) {
+              if (!streamController.isClosed) {
+                inputState.add(
+                  ErrorState(
+                    stateRendererType: StateRendererType.popupErrorState,
+                    message: failure.message,
+                  ),
+                );
+              }
+            },
             (forgotPassword) {
-              inputState.add(
-                SuccessState(
-                  stateRendererType: StateRendererType.popupSuccessState,
-                  message:
-                      forgotPassword.support ?? StringsManager.successMessage,
-                ),
-              );
-              isPasswordResetInput.add(true);
+              if (!streamController.isClosed) {
+                inputState.add(
+                  SuccessState(
+                    stateRendererType: StateRendererType.popupSuccessState,
+                    message:
+                        forgotPassword.support ?? StringsManager.successMessage,
+                  ),
+                );
+              }
+              if (!isPasswordResetStreamController.isClosed) {
+                isPasswordResetInput.add(true);
+              }
             },
           );
         });

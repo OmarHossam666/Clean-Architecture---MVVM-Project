@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, snapshot) {
           return snapshot.data?.getScreen(
                 context,
-                () => _loginViewModel.login(),
+                () => _loginViewModel.resetToContentState(),
                 _getContent(),
               ) ??
               _getContent();

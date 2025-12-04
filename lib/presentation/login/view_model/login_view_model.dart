@@ -58,12 +58,15 @@ class LoginViewModel extends BaseViewModel
 
   @override
   Future<void> login() async {
-    inputState.add(
-      LoadingState(
-        stateRendererType: StateRendererType.popupLoadingState,
-        message: StringsManager.loading,
-      ),
-    );
+    if (!streamController.isClosed) {
+      inputState.add(
+        LoadingState(
+          stateRendererType: StateRendererType.popupLoadingState,
+          message: StringsManager.loading,
+        ),
+      );
+    }
+
     await loginUsecase
         .execute(
           LoginUsecaseInput(
@@ -73,15 +76,23 @@ class LoginViewModel extends BaseViewModel
         )
         .then((value) {
           value.fold(
-            (failure) => inputState.add(
-              ErrorState(
-                message: failure.message,
-                stateRendererType: StateRendererType.popupErrorState,
-              ),
-            ),
+            (failure) {
+              if (!streamController.isClosed) {
+                inputState.add(
+                  ErrorState(
+                    message: failure.message,
+                    stateRendererType: StateRendererType.popupErrorState,
+                  ),
+                );
+              }
+            },
             (authentication) {
-              inputState.add(ContentState());
-              isLoggedInStreamController.add(true);
+              if (!streamController.isClosed) {
+                inputState.add(ContentState());
+              }
+              if (!isLoggedInStreamController.isClosed) {
+                isLoggedInStreamController.add(true);
+              }
             },
           );
         });

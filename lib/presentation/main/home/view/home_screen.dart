@@ -84,6 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _getBanners(List<Banner> banners) {
+    if (banners.isEmpty) {
+      return const SizedBox();
+    }
     return CarouselSlider(
       items: banners.map((banner) => _getBanner(banner)).toList(),
       options: CarouselOptions(

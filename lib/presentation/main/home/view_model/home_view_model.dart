@@ -19,26 +19,34 @@ class HomeViewModel extends BaseViewModel
   }
 
   Future<void> getHomeData() async {
-    inputState.add(
-      LoadingState(
-        stateRendererType: StateRendererType.fullScreenLoadingState,
-        message: StringsManager.loading,
-      ),
-    );
+    if (!streamController.isClosed) {
+      inputState.add(
+        LoadingState(
+          stateRendererType: StateRendererType.fullScreenLoadingState,
+          message: StringsManager.loading,
+        ),
+      );
+    }
 
     await homeUsecase.execute(null).then((value) {
       value.fold(
         (failure) {
-          inputState.add(
-            ErrorState(
-              message: failure.message,
-              stateRendererType: StateRendererType.fullScreenErrorState,
-            ),
-          );
+          if (!streamController.isClosed) {
+            inputState.add(
+              ErrorState(
+                message: failure.message,
+                stateRendererType: StateRendererType.fullScreenErrorState,
+              ),
+            );
+          }
         },
         (homeModel) {
-          inputHome.add(homeModel);
-          inputState.add(ContentState());
+          if (!_homeStreamController.isClosed) {
+            inputHome.add(homeModel);
+          }
+          if (!streamController.isClosed) {
+            inputState.add(ContentState());
+          }
         },
       );
     });

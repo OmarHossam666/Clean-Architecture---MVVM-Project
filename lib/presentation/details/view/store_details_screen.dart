@@ -65,25 +65,22 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         if (snapshot.data == null) {
           return Container();
         }
+
+        final storeDetails = snapshot.data!;
+
         return SafeArea(
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: ValuesManager.spacing12,
               children: [
-                Image.network(snapshot.data!.image, width: double.infinity),
+                Image.network(storeDetails.image, width: double.infinity),
                 _getSection(StringsManager.details),
-                Text(
-                  snapshot.data!.details,
-                  style: StylesManager.bodyTextStyle,
-                ),
+                Text(storeDetails.details, style: StylesManager.bodyTextStyle),
                 _getSection(StringsManager.services),
-                Text(
-                  snapshot.data!.services,
-                  style: StylesManager.bodyTextStyle,
-                ),
+                Text(storeDetails.services, style: StylesManager.bodyTextStyle),
                 _getSection(StringsManager.about),
-                Text(snapshot.data!.about, style: StylesManager.bodyTextStyle),
+                Text(storeDetails.about, style: StylesManager.bodyTextStyle),
               ],
             ),
           ),

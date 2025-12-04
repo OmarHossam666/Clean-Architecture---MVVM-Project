@@ -43,4 +43,10 @@ class AppPreferences {
   bool isRegistered() {
     return sharedPreferences.getBool(_isRegisteredKey) ?? false;
   }
+
+  Future<void> clear() async {
+    await sharedPreferences.clear();
+  }
+
+  
 }

@@ -14,9 +14,13 @@ abstract class BaseViewModel
   @override
   Stream<FlowState> get outputState => streamController.stream;
 
+  void resetToContentState() {
+    inputState.add(ContentState());
+  }
+
   @override
   void dispose() {
-    streamController.close(); 
+    streamController.close();
   }
 }
 

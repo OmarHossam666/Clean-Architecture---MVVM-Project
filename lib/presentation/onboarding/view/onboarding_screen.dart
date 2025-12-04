@@ -61,8 +61,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         controller: _pageController,
         itemCount: onboardingModel?.totalPages,
         itemBuilder: (context, index) {
+          if (onboardingModel == null) {
+            return const SizedBox();
+          }
           return OnboardingPage(
-            onboardingData: onboardingModel!.onboardingDataList[index],
+            onboardingData: onboardingModel.onboardingDataList[index],
           );
         },
         onPageChanged: _onboardingViewModel.onPageChanged,
