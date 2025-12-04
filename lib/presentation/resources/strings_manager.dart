@@ -9,7 +9,6 @@ class StringsManager {
   static const String tryAgain = 'Try again';
   static const String ok = 'OK';
   static const String empty = 'No data available';
-  static const String success = 'Success';
   static const String successMessage = 'Operation completed successfully';
   static const String nameError = 'Name must be at least 8 characters long';
   static const String countryCodeError = 'Country code cannot be empty';
@@ -71,4 +70,35 @@ class StringsManager {
   static const String contactUs = 'Contact Us';
   static const String inviteYourFriends = 'Invite Your Friends';
   static const String logout = 'Logout';
+
+  // Response Messages
+  static const String success = "Your request was completed successfully.";
+  static const String noContent =
+      "Your request was processed successfully, but no data was returned.";
+  static const String badRequest =
+      "Sorry, we couldn't process your request. Please check your information and try again.";
+  static const String forbidden =
+      "You don't have permission to access this resource. Please contact support if you believe this is an error.";
+  static const String unauthorised =
+      "Please log in again to continue. Your session may have expired.";
+  static const String notFound =
+      "We couldn't find what you're looking for. The resource may have been moved or deleted.";
+  static const String internalServerError =
+      "Something went wrong on our end. We're working to fix it. Please try again later.";
+
+  // Local Response Message
+  static const String connectTimeout =
+      "The connection timed out. Please check your internet and try again.";
+  static const String cancel =
+      "The request was cancelled. Please try again if needed.";
+  static const String recieveTimeout =
+      "Taking too long to receive data. Please check your connection and try again.";
+  static const String sendTimeout =
+      "Taking too long to send data. Please check your connection and try again.";
+  static const String cacheError =
+      "There was an issue with the cached data. Please refresh and try again.";
+  static const String noInternetConnection =
+      "No internet connection available. Please check your network settings and try again.";
+  static const String unknown =
+      "An unexpected error occurred. Please try again or contact support if the problem persists.";
 }

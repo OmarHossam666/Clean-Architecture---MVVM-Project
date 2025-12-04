@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 import 'package:clean_architecture_mvvm/data/failure/failure.dart';
+import 'package:clean_architecture_mvvm/presentation/resources/strings_manager.dart';
 import 'package:dio/dio.dart';
 
 class ErrorHandler implements Exception {
@@ -160,35 +161,23 @@ class ResponseCode {
 
 class ResponseMessage {
   // Remote Response Message
-  static const String SUCCESS = "Your request was completed successfully.";
-  static const String NO_CONTENT =
-      "Your request was processed successfully, but no data was returned.";
-  static const String BAD_REQUEST =
-      "Sorry, we couldn't process your request. Please check your information and try again.";
-  static const String FORBIDDEN =
-      "You don't have permission to access this resource. Please contact support if you believe this is an error.";
-  static const String UNAUTHORISED =
-      "Please log in again to continue. Your session may have expired.";
-  static const String NOT_FOUND =
-      "We couldn't find what you're looking for. The resource may have been moved or deleted.";
+  static const String SUCCESS = StringsManager.success;
+  static const String NO_CONTENT = StringsManager.noContent;
+  static const String BAD_REQUEST = StringsManager.badRequest;
+  static const String FORBIDDEN = StringsManager.forbidden;
+  static const String UNAUTHORISED = StringsManager.unauthorised;
+  static const String NOT_FOUND = StringsManager.notFound;
   static const String INTERNAL_SERVER_ERROR =
-      "Something went wrong on our end. We're working to fix it. Please try again later.";
+      StringsManager.internalServerError;
 
   // Local Response Message
-  static const String CONNECT_TIMEOUT =
-      "The connection timed out. Please check your internet and try again.";
-  static const String CANCEL =
-      "The request was cancelled. Please try again if needed.";
-  static const String RECIEVE_TIMEOUT =
-      "Taking too long to receive data. Please check your connection and try again.";
-  static const String SEND_TIMEOUT =
-      "Taking too long to send data. Please check your connection and try again.";
-  static const String CACHE_ERROR =
-      "There was an issue with the cached data. Please refresh and try again.";
-  static const String NO_INTERNET_CONNECTION =
-      "No internet connection available. Please check your network settings and try again.";
-  static const String UNKNOWN =
-      "An unexpected error occurred. Please try again or contact support if the problem persists.";
+  static const String CONNECT_TIMEOUT = StringsManager.connectTimeout;
+  static const String CANCEL = StringsManager.cancel;
+  static const String RECIEVE_TIMEOUT = StringsManager.recieveTimeout;
+  static const String SEND_TIMEOUT = StringsManager.sendTimeout;
+  static const String CACHE_ERROR = StringsManager.cacheError;
+  static const String NO_INTERNET_CONNECTION = StringsManager.noInternetConnection;
+  static const String UNKNOWN = StringsManager.unknown;
 }
 
 class ApiInternalStatus {
